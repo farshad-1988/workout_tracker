@@ -1,4 +1,5 @@
 function App() {
+  console.log("this is from test branch");
   console.log("workout tracker app started");
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
