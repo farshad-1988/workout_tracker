@@ -1,5 +1,5 @@
 function App() {
-  console.log("this is from test branch");
+  console.log("for test branch");
   console.log("another branch for workout app");
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
