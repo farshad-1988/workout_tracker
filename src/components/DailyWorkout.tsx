@@ -10,10 +10,12 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import type { Comparisons } from "@/types/types";
 import { toast } from "sonner";
+import { calculateDaysFrom } from "@/utils/calculateDaysFrom";
 
 const DailyWorkout: React.FC = () => {
   // const [exercises, setExercises] = useLocalStorage<Exercise[]>(pickedDate, []);
-  const [extraData] = useLocalStorage<ExtraData>("extraData", {});
+  const [extraData, setExtraData] = useLocalStorage<ExtraData>("extraData", {});
+
   const [editedExercise, setEditedExercise] = useState<Partial<Exercise>>({});
   const [editingExercise, setEditingExercise] = useState<string | null>(null);
   const { exercises, setExercises } = useOutletContext<ExercisesMutateProps>();
@@ -27,13 +29,16 @@ const DailyWorkout: React.FC = () => {
   const [ModifiedPickedDate, setModifiedPickedDate] = useState<string>("");
 
   useEffect(() => {
-    if (!pickedDate)
+    if (!pickedDate) {
       setModifiedPickedDate(
         new DateObject({
           calendar: persian,
           locale: persian_fa,
         }).format("YYYY-MM-DD")
       );
+    } else {
+      setModifiedPickedDate(pickedDate);
+    }
   }, [pickedDate]);
 
   //   useEffect(() => {
@@ -68,23 +73,100 @@ const DailyWorkout: React.FC = () => {
     return today >= avg ? `+${diff}%` : `${diff}%`;
   };
 
-  // const getExerciseTypeColor = (type) => {
-  //   const colors = {
-  //     شنا: "bg-blue-100 text-blue-800",
-  //     پیلاتس: "bg-purple-100 text-purple-800",
-  //     کاردیو: "bg-red-100 text-red-800",
-  //     default: "bg-gray-100 text-gray-800",
-  //   };
-  //   return colors[type] || colors.default;
-  // };
-
   const handleRemove = (exerName: string) => {
     if (!window.confirm("آیا از حذف این تمرین مطمئن هستید؟")) return;
 
-    setExercises((prev) => {
-      return prev.length === 1
-        ? []
-        : prev.filter((ex) => ex.exerciseName !== exerName);
+    const exerciseToRemove = exercises.find(
+      (ex) => ex.exerciseName === exerName
+    );
+    if (!exerciseToRemove) {
+      toast("تمرین یافت نشد.");
+      return;
+    }
+
+    // Filter exercises after removal (for this date)
+    const remainingExercises = exercises.filter(
+      (ex) => ex.exerciseName !== exerName
+    );
+    const isDateEmptyAfterRemoval = remainingExercises.length === 0;
+    // Safely compute updated extra data
+    const prevTotalCalories = extraData.totalCalories || 0;
+    const prevTotalDuration = extraData.totalDuration || 0;
+    const prevDaysWithWorkouts = extraData.daysWithWorkouts || 0;
+    const prevRegisteredDates = extraData.registeredDate || [];
+
+    const nextTotalCalories =
+      prevTotalCalories - exerciseToRemove.caloriesBurned;
+    const nextTotalDuration = prevTotalDuration - exerciseToRemove.duration;
+
+    let nextRegisteredDates = prevRegisteredDates;
+    let nextDaysWithWorkouts = prevDaysWithWorkouts;
+    let nextFirstDay: string | undefined = extraData.firstDay;
+    let nextLastDay: string | undefined = extraData.lastDay;
+    let nextDaysPassed: number | undefined = extraData.daysPassed;
+
+    if (isDateEmptyAfterRemoval) {
+      // Remove the date entirely from registry
+      nextRegisteredDates = prevRegisteredDates.filter(
+        (d) => d !== ModifiedPickedDate
+      );
+      nextDaysWithWorkouts = Math.max(0, prevDaysWithWorkouts - 1);
+
+      if (nextRegisteredDates.length === 0) {
+        nextFirstDay = undefined;
+        nextLastDay = undefined;
+        nextDaysPassed = 0;
+      } else {
+        // Determine min/max using DateObject to support Persian digits like "۱۴۰۴-۰۶-۱۹"
+        const getValue = (s: string) =>
+          new DateObject({
+            date: s,
+            format: "YYYY-MM-DD",
+            calendar: persian,
+            locale: persian_fa,
+          }).valueOf();
+        const sortedDates = nextRegisteredDates.sort(
+          (a, b) => getValue(a) - getValue(b)
+        );
+        nextFirstDay = sortedDates[0];
+        //   nextRegisteredDates.reduce(
+        //   (min, d) => (getValue(d) < getValue(min) ? d : min),
+        //   nextRegisteredDates[0]
+        // );
+        nextLastDay = sortedDates[sortedDates.length - 1];
+        // nextRegisteredDates.reduce(
+        // (max, d) => (getValue(d) > getValue(max) ? d : max),
+        // nextRegisteredDates[0]
+        // );
+        nextDaysPassed = calculateDaysFrom(nextFirstDay);
+      }
+    }
+    console.log(
+      nextTotalCalories,
+      nextTotalCalories,
+      nextDaysWithWorkouts,
+      nextFirstDay,
+      nextLastDay,
+      nextDaysPassed,
+      nextRegisteredDates
+    );
+    setExtraData((prev) => ({
+      ...prev,
+      totalCalories: nextTotalCalories,
+      totalDuration: nextTotalDuration,
+      daysWithWorkouts: nextDaysWithWorkouts,
+      firstDay: nextFirstDay,
+      lastDay: nextLastDay,
+      daysPassed: nextDaysPassed,
+      registeredDate: nextRegisteredDates,
+    }));
+
+    setExercises(() => {
+      if (isDateEmptyAfterRemoval) {
+        localStorage.removeItem(ModifiedPickedDate);
+        return [];
+      }
+      return remainingExercises;
     });
   };
 
@@ -130,6 +212,32 @@ const DailyWorkout: React.FC = () => {
       return;
     }
     if (!window.confirm("آیا از ذخیره تغییرات مطمئن هستید؟")) return;
+
+    // Find original values to compute deltas
+    const original = exercises.find((ex) => ex.exerciseName === exerName);
+    if (!original) {
+      toast("تمرین برای ویرایش یافت نشد.");
+      return;
+    }
+
+    const newCalories =
+      editedExercise.caloriesBurned !== undefined
+        ? editedExercise.caloriesBurned
+        : original.caloriesBurned;
+    const newDuration =
+      editedExercise.duration !== undefined
+        ? editedExercise.duration
+        : original.duration;
+
+    const caloriesDiff = newCalories - original.caloriesBurned;
+    const durationDiff = newDuration - original.duration;
+
+    // Update extraData totals by diff, keep other metadata unchanged
+    setExtraData((prev) => ({
+      ...prev,
+      totalCalories: Math.max(0, (prev.totalCalories || 0) + caloriesDiff),
+      totalDuration: Math.max(0, (prev.totalDuration || 0) + durationDiff),
+    }));
 
     setExercises((prev) =>
       prev.map((ex) =>

@@ -25,6 +25,7 @@ const MainLayout = () => {
     pickedDate ?? ModifiedPickedDate,
     []
   );
+  // const [extraData, setExtraData] = useLocalStorage<ExtraData>("extraData", {});
 
   return (
     <div className="w-full h-full flex flex-col items-center overflow-hidden">

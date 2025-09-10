@@ -20,13 +20,16 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
   const [ModifiedPickedDate, setModifiedPickedDate] = useState<string>("");
 
   useEffect(() => {
-    if (!pickedDate)
+    if (!pickedDate) {
       setModifiedPickedDate(
         new DateObject({
           calendar: persian,
           locale: persian_fa,
         }).format("YYYY-MM-DD")
       );
+    } else {
+      setModifiedPickedDate(pickedDate);
+    }
   }, [pickedDate]);
 
   const [exerciseTypes, setExerciseTypes] = useLocalStorage("exerciseTypes", [
@@ -40,7 +43,9 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
     "پیاده روی",
     "ورزش‌های تیمی",
   ]);
-  const [, setExtraData] = useLocalStorage<ExtraData>("extraData", {});
+  const [extraData, setExtraData] = useLocalStorage<ExtraData>("extraData", {
+    registeredDate: [],
+  });
   const [formData, setFormData] = useState<Exercise>({
     exerciseName: "",
     exerciseType: "",
@@ -145,32 +150,48 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
     }
 
     const updatedData: ExtraData = {};
-    if (localStorage.getItem(ModifiedPickedDate)) {
+    if (
+      localStorage.getItem(ModifiedPickedDate) &&
+      Array.isArray(localStorage.getItem(ModifiedPickedDate)) &&
+      localStorage.getItem(ModifiedPickedDate)?.length !== 0
+    ) {
       updatedData.totalCalories =
-        (updatedData.totalCalories || 0) + formData.caloriesBurned;
+        (extraData.totalCalories || 0) + formData.caloriesBurned;
       updatedData.totalDuration =
-        (updatedData.totalDuration || 0) + formData.duration;
+        (extraData.totalDuration || 0) + formData.duration;
     } else {
       updatedData.totalCalories =
-        (updatedData.totalCalories || 0) + formData.caloriesBurned;
+        (extraData.totalCalories || 0) + formData.caloriesBurned;
       updatedData.totalDuration =
-        (updatedData.totalDuration || 0) + formData.duration;
-      updatedData.daysWithWorkouts = (updatedData.daysWithWorkouts || 0) + 1;
-      updatedData.firstDay = !updatedData.firstDay
+        (extraData.totalDuration || 0) + formData.duration;
+
+      updatedData.firstDay = !extraData.firstDay
         ? ModifiedPickedDate
-        : updatedData.firstDay > ModifiedPickedDate
+        : extraData.firstDay > ModifiedPickedDate
         ? ModifiedPickedDate
-        : updatedData.firstDay;
-      updatedData.lastDay = !updatedData.lastDay
+        : extraData.firstDay;
+      updatedData.lastDay = !extraData.lastDay
         ? ModifiedPickedDate
-        : updatedData.lastDay < ModifiedPickedDate
+        : extraData.lastDay < ModifiedPickedDate
         ? ModifiedPickedDate
-        : updatedData.lastDay;
+        : extraData.lastDay;
       updatedData.daysPassed = calculateDaysFrom(updatedData.firstDay);
+      updatedData.registeredDate =
+        !extraData.registeredDate?.includes(ModifiedPickedDate) &&
+        extraData.registeredDate
+          ? [...extraData.registeredDate, ModifiedPickedDate]
+          : extraData.registeredDate
+          ? extraData.registeredDate
+          : [ModifiedPickedDate];
+      updatedData.daysWithWorkouts = updatedData.registeredDate.length;
     }
+    console.log(updatedData.registeredDate);
     setExtraData((prev) => ({ ...prev, ...updatedData }));
 
-    setExercises((prev) => [...prev, formData]);
+    setExercises((prev) => [
+      ...prev,
+      { ...formData, date: ModifiedPickedDate },
+    ]);
 
     toast("تمرین با موفقیت ثبت شد!", {
       description: " در تمرینات " + checkDay(pickedDate ?? ModifiedPickedDate),
@@ -199,13 +220,6 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
     (ModifiedPickedDate || pickedDate) &&
     formData.caloriesBurned > 0;
 
-  console.log(
-    formData.exerciseName,
-    formData.exerciseType,
-    formData.duration > 0,
-    ModifiedPickedDate,
-    formData.caloriesBurned > 0
-  );
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>

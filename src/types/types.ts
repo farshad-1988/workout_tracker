@@ -16,6 +16,8 @@ export type Exercise = {
 export interface ExercisesMutateProps {
   exercises: Exercise[];
   setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+  // extraData: ExtraData;
+  // setExtraData: React.Dispatch<React.SetStateAction<ExtraData[]>>;
 }
 
 export type ExtraData = {
@@ -25,6 +27,7 @@ export type ExtraData = {
   firstDay?: string;
   lastDay?: string;
   daysPassed?: number;
+  registeredDate?: string[];
 };
 export type Comparisons = {
   title: string;
