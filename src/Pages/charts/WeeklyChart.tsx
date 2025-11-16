@@ -5,9 +5,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  Title,
   Tooltip,
-  Legend,
   Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
@@ -32,9 +30,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  Title,
   Tooltip,
-  Legend,
   Filler
 );
 
@@ -142,7 +138,7 @@ export default function WeeklyChart() {
     setAvgCalories(validDays > 0 ? Math.round(total / validDays) : 0);
 
     // Simulate loading for smooth transition
-    setTimeout(() => setIsLoading(false), 300);
+    setTimeout(() => setIsLoading(false), 0);
   }, [startOfWeek, today, weekOffset]);
 
   const chartOptions: any = {
@@ -257,11 +253,11 @@ export default function WeeklyChart() {
     color: string;
   }) => (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]">
-      <div className="flex items-center space-x-3 rtl:space-x-reverse">
+      <div className="w-full flex text-center justify-between items-center space-x-3 ">
         <div className={`p-2 sm:p-3 rounded-xl bg-gradient-to-br ${color}`}>
           <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </div>
-        <div className="flex-1 min-w-0">
+        <div className=" min-w-0">
           <p className="text-sm font-medium text-gray-600 truncate">{label}</p>
           <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1">
             {value}
@@ -272,7 +268,7 @@ export default function WeeklyChart() {
   );
 
   return (
-    <div className="min-h-screen  p-4 sm:p-6 lg:p-8">
+    <div className="w-full h-full   p-2 sm:p-8 lg:p-16 relative">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8 sm:mb-12">
@@ -296,13 +292,15 @@ export default function WeeklyChart() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
             <div className="w-full flex justify-between items-center">
               <button
-                className="group flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-indigo-500 text-gray-700 hover:text-white font-medium transition-all duration-300 hover:shadow-md hover:scale-[1.02]"
-                onClick={() => setWeekOffset((prev) => prev - 1)}
-                aria-label="هفته قبل"
+                className="group flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-indigo-500 text-gray-700 hover:text-white font-medium transition-all duration-300 hover:shadow-md hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:from-gray-100 disabled:hover:to-gray-200 disabled:hover:text-gray-700 h-8 cursor-pointer"
+                onClick={() => setWeekOffset((prev) => prev + 1)}
+                disabled={weekOffset >= 0}
+                aria-label="هفته بعد"
               >
-                <ChevronRight className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                <span className="hidden sm:inline">هفته قبل</span>
+                <ChevronRight className="w-4 h-4 group-hover:scale-110 transition-transform group-disabled:scale-100" />
+                <span className="hidden sm:inline">هفته بعد</span>
               </button>
+
               <div className="flex items-center space-x-3 rtl:space-x-reverse">
                 <div className="p-2 rounded-xl ml-2 bg-gradient-to-br from-blue-500 to-indigo-500">
                   <Flame className="w-6 h-6 text-white" />
@@ -316,13 +314,12 @@ export default function WeeklyChart() {
               </div>
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <button
-                  className="group flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-indigo-500 text-gray-700 hover:text-white font-medium transition-all duration-300 hover:shadow-md hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:from-gray-100 disabled:hover:to-gray-200 disabled:hover:text-gray-700"
-                  onClick={() => setWeekOffset((prev) => prev + 1)}
-                  disabled={weekOffset >= 0}
-                  aria-label="هفته بعد"
+                  className="group flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-indigo-500 text-gray-700 hover:text-white font-medium transition-all duration-300 hover:shadow-md hover:scale-[1.02] h-8 cursor-pointer"
+                  onClick={() => setWeekOffset((prev) => prev - 1)}
+                  aria-label="هفته قبل"
                 >
-                  <span className="hidden sm:inline">هفته بعد</span>
-                  <ChevronLeft className="w-4 h-4 group-hover:scale-110 transition-transform group-disabled:scale-100" />
+                  <span className="hidden sm:inline">هفته قبل</span>
+                  <ChevronLeft className="w-4 h-4 group-hover:scale-110 transition-transform" />
                 </button>
               </div>
             </div>

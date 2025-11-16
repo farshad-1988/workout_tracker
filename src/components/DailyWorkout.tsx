@@ -20,9 +20,15 @@ const DailyWorkout: React.FC = () => {
   const [editingExercise, setEditingExercise] = useState<string | null>(null);
   const { exercises, setExercises } = useOutletContext<ExercisesMutateProps>();
   const [exerciseTypes] = useLocalStorage<string[]>("exerciseTypes", [
-    "شنا",
-    "پیلاتس",
     "کاردیو",
+    "بدنسازی",
+    "یوگا",
+    "پیلاتس",
+    "دویدن",
+    "شنا",
+    "دوچرخه سواری",
+    "پیاده روی",
+    "ورزش‌های تیمی",
   ]);
   // Today's stats
   const { pickedDate } = useParams<keyof Params>() as { pickedDate: string };

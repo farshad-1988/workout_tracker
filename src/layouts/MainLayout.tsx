@@ -28,9 +28,9 @@ const MainLayout = () => {
   // const [extraData, setExtraData] = useLocalStorage<ExtraData>("extraData", {});
 
   return (
-    <div className="w-full h-full flex flex-col items-center overflow-hidden">
+    <div className="w-full h-full ">
       <Navbar setExercises={setExercises} exercises={exercises} />
-      <div className="relative w-full h-full flex items-center justify-center overflow-y-auto">
+      <div className="w-full  flex items-center bg-transparent justify-center">
         <Outlet context={{ exercises, setExercises }} />
         <Toaster position="top-center" />
       </div>
