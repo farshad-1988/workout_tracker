@@ -5,11 +5,14 @@ import {
   DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { calculateDaysFrom } from "@/utils/calculateDaysFrom";
 import { useParams, type Params } from "react-router-dom";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import type { ExercisesMutateProps, ExtraData } from "@/types/types";
+import type {
+  ExercisesMutateProps,
+  ExtraData,
+  UpdatedData,
+} from "@/types/types";
 import { CirclePlus, AlertCircle, Target, Settings } from "lucide-react";
 import checkDay from "@/utils/checkDay";
 import { DateObject } from "react-multi-date-picker";
@@ -121,6 +124,8 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
 
   const [extraData, setExtraData] = useLocalStorage<ExtraData>("extraData", {
     registeredDate: [],
+    dailyCalorieGoal: 0,
+    dailyDurationGoal: 0,
   });
 
   // Set default values for goals form when dialog opens
@@ -157,7 +162,7 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
     }
 
     try {
-      const updatedData: ExtraData = {};
+      const updatedData: UpdatedData = {};
       const hasExistingExercises =
         localStorage.getItem(modifiedPickedDate) &&
         Array.isArray(JSON.parse(localStorage.getItem(modifiedPickedDate)!)) &&

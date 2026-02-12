@@ -28,6 +28,17 @@ export type ExtraData = {
   lastDay?: string;
   daysPassed?: number;
   registeredDate?: string[];
+  dailyDurationGoal: number;
+  dailyCalorieGoal: number;
+};
+export type UpdatedData = {
+  totalCalories?: number;
+  totalDuration?: number;
+  daysWithWorkouts?: number;
+  firstDay?: string;
+  lastDay?: string;
+  daysPassed?: number;
+  registeredDate?: string[];
 };
 export type Comparisons = {
   title: string;
