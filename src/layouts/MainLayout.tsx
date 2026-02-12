@@ -18,12 +18,12 @@ const MainLayout = () => {
         new DateObject({
           calendar: persian,
           locale: persian_fa,
-        }).format("YYYY-MM-DD")
+        }).format("YYYY-MM-DD"),
       );
   }, [pickedDate]);
   const [exercises, setExercises] = useLocalStorage<Exercise[]>(
     pickedDate ?? ModifiedPickedDate,
-    []
+    [],
   );
   // const [extraData, setExtraData] = useLocalStorage<ExtraData>("extraData", {});
 

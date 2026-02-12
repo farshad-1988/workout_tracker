@@ -6,9 +6,12 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useNavigate, useParams, type Params } from "react-router-dom";
 import DateObject from "react-date-object";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import type { ExtraData } from "@/types/types";
 
 const ShamsiCalendar = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [extraData] = useLocalStorage<ExtraData>("extraData", {});
   const navigate = useNavigate();
   const { pickedDate }: Readonly<Params<string>> = useParams();
 
@@ -18,6 +21,7 @@ const ShamsiCalendar = () => {
     navigate(`/dailyworkout/${selected.format("YYYY-MM-DD")}`);
     setDialogOpen(false);
   };
+  console.log("extraData in ShamsiCalendar:", extraData);
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -42,7 +46,23 @@ const ShamsiCalendar = () => {
             calendar={persian}
             locale={persian_fa}
             onChange={dateClickHandler}
-            maxDate={new Date()} // فقط امروز و قبلش قابل انتخاب هستند
+            maxDate={new Date()}
+            mapDays={({ date }) => {
+              const formatted = date.format("YYYY-MM-DD");
+              if (
+                extraData &&
+                extraData.registeredDate &&
+                extraData.registeredDate.includes(formatted)
+              ) {
+                return {
+                  style: {
+                    backgroundColor: "#22c55e",
+                    color: "white",
+                    borderRadius: "6px",
+                  },
+                };
+              }
+            }}
             value={
               pickedDate
                 ? new DateObject({
