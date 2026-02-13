@@ -65,7 +65,7 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
   const [modifiedPickedDate, setModifiedPickedDate] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [goalsDialogOpen, setGoalsDialogOpen] = useState(false);
-  const [showAddType, setShowAddType] = useState(false);
+  const [showAddType, setShowAddType] = useState<boolean>(false);
 
   const {
     handleSubmit,

@@ -31,7 +31,7 @@ ChartJS.register(
   PointElement,
   LineElement,
   Tooltip,
-  Filler
+  Filler,
 );
 
 const makeDO = (input?: Date | string) =>
@@ -117,7 +117,7 @@ export default function WeeklyChart() {
 
       const caloriesForDay = exercises.reduce(
         (total, ex) => total + (ex.caloriesBurned || 0),
-        0
+        0,
       );
 
       const isFutureInThisWeek =
@@ -238,7 +238,7 @@ export default function WeeklyChart() {
   };
 
   const weekLabel = `${startOfWeek.format("YYYY/MM/DD")} – ${endOfWeek.format(
-    "YYYY/MM/DD"
+    "YYYY/MM/DD",
   )}`;
 
   const StatCard = ({
@@ -383,8 +383,8 @@ export default function WeeklyChart() {
                   {daysInWeekFa[
                     caloriesData.indexOf(
                       Math.max(
-                        ...(caloriesData.filter((c) => c !== null) as number[])
-                      )
+                        ...(caloriesData.filter((c) => c !== null) as number[]),
+                      ),
                     )
                   ] || "N/A"}
                 </span>

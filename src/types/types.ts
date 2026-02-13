@@ -28,8 +28,8 @@ export type ExtraData = {
   lastDay?: string;
   daysPassed?: number;
   registeredDate?: string[];
-  dailyDurationGoal: number;
-  dailyCalorieGoal: number;
+  dailyDurationGoal?: number;
+  dailyCalorieGoal?: number;
 };
 export type UpdatedData = {
   totalCalories?: number;
@@ -46,3 +46,25 @@ export type Comparisons = {
   avg: number;
   unit: string;
 };
+
+// types/comparison.types.ts (or add to your existing types file)
+export type ColorType = "blue" | "orange" | "purple" | "green";
+
+export interface ColorScheme {
+  bg: string;
+  text: string;
+  gradient: string;
+}
+
+export type ColorSchemes = Record<ColorType, ColorScheme>;
+
+export interface ComparisonItem {
+  title: string;
+  current: number;
+  average: number;
+  target?: number;
+  unit: string;
+  color: ColorType;
+  icon: string;
+  isPercentage?: boolean;
+}

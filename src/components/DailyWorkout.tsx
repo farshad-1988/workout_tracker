@@ -2,7 +2,14 @@ import React, { useEffect, useState, type JSX } from "react";
 import { Activity, Check, Edit3, Trash2, X } from "lucide-react";
 import { useOutletContext, useParams, type Params } from "react-router-dom";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import type { Exercise, ExercisesMutateProps, ExtraData } from "@/types/types";
+import type {
+  ColorScheme,
+  ColorSchemes,
+  ComparisonItem,
+  Exercise,
+  ExercisesMutateProps,
+  ExtraData,
+} from "@/types/types";
 import checkDay from "@/utils/checkDay";
 import WorkoutForm from "./modals/WorkoutForm";
 import { DateObject } from "react-multi-date-picker";
@@ -11,6 +18,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import { toast } from "sonner";
 import { calculateDaysFrom } from "@/utils/calculateDaysFrom";
 import { TrendingUp, TrendingDown } from "lucide-react";
+
 const DailyWorkout: React.FC = () => {
   // const [exercises, setExercises] = useLocalStorage<Exercise[]>(pickedDate, []);
   const [extraData, setExtraData] = useLocalStorage<ExtraData>("extraData", {});
@@ -57,7 +65,8 @@ const DailyWorkout: React.FC = () => {
   };
 
   // Updated comparisons array with better calculations
-  const comparisons = [
+  // Type-safe comparisons array
+  const comparisons: ComparisonItem[] = [
     {
       title: "مدت ورزش امروز",
       current: exercises?.reduce((acc, curr) => acc + curr.duration, 0) || 0,
@@ -65,7 +74,7 @@ const DailyWorkout: React.FC = () => {
         extraData.totalDuration && extraData.daysWithWorkouts
           ? Math.round(extraData.totalDuration / extraData.daysWithWorkouts)
           : 0,
-      target: extraData.dailyDurationGoal || 60, // 60 minutes daily target
+      target: extraData.dailyDurationGoal || 60,
       unit: "دقیقه",
       color: "blue",
       icon: "⏱️",
@@ -78,25 +87,11 @@ const DailyWorkout: React.FC = () => {
         extraData.totalCalories && extraData.daysWithWorkouts
           ? Math.round(extraData.totalCalories / extraData.daysWithWorkouts)
           : 0,
-      target: extraData.dailyCalorieGoal || 500, // 500 calories daily target
+      target: extraData.dailyCalorieGoal || 500,
       unit: "کالری",
       color: "orange",
       icon: "🔥",
     },
-    // {
-    //   title: "تعداد تمرینات",
-    //   current: exercises?.length || 0,
-    //   average:
-    //     extraData.totalDuration && extraData.daysWithWorkouts
-    //       ? Math.round(
-    //           extraData.totalDuration / extraData.daysWithWorkouts / 30,
-    //         ) // Assuming avg 30 min per workout
-    //       : 0,
-    //   target: 3,
-    //   unit: "تمرین",
-    //   color: "purple",
-    //   icon: "💪",
-    // },
     {
       title: "نرخ فعالیت",
       current: extraData.daysWithWorkouts || 0,
@@ -130,12 +125,6 @@ const DailyWorkout: React.FC = () => {
   //     unit: "کالری",
   //   },
   // ] as Comparisons[];
-
-  const getDiff = (today: number, avg: number) => {
-    if (!avg) return "0%";
-    const diff = ((today / avg - 1) * 100).toFixed(0);
-    return today >= avg ? `+${diff}%` : `${diff}%`;
-  };
 
   const handleRemove = (exerName: string) => {
     if (!window.confirm("آیا از حذف این تمرین مطمئن هستید؟")) return;
@@ -524,7 +513,7 @@ const DailyWorkout: React.FC = () => {
           {/* Comparison Bars */}
 
           <div className="grid gap-5 mb-10 md:grid-cols-1 lg:grid-cols-3">
-            {comparisons.map((item, idx) => {
+            {comparisons.map((item: ComparisonItem, idx: number) => {
               const percentDiff = getPercentageDiff(item.current, item.average);
               const isPositive = percentDiff > 0;
               const isNeutral = percentDiff === 0;
@@ -541,7 +530,7 @@ const DailyWorkout: React.FC = () => {
                   : item.current;
 
               // Color schemes
-              const colorSchemes = {
+              const colorSchemes: ColorSchemes = {
                 blue: {
                   bg: "bg-blue-50",
                   text: "text-blue-600",
@@ -564,7 +553,7 @@ const DailyWorkout: React.FC = () => {
                 },
               };
 
-              const scheme = colorSchemes[item.color];
+              const scheme: ColorScheme = colorSchemes[item.color];
 
               return (
                 <div
@@ -664,7 +653,7 @@ const DailyWorkout: React.FC = () => {
                         ) : (
                           <span>
                             {Math.round(targetProgress)}% از هدف (
-                            {item.target - item.current > 0
+                            {item.target && item.target - item.current > 0
                               ? `${item.target - item.current} ${item.unit} مانده`
                               : "کامل"}
                             )
