@@ -11,7 +11,7 @@ import type {
   ExtraData,
 } from "@/types/types";
 import checkDay from "@/utils/checkDay";
-import WorkoutForm from "./modals/WorkoutForm";
+import WorkoutForm from "../../components/modals/WorkoutForm";
 import { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
