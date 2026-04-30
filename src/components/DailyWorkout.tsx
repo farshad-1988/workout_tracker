@@ -18,6 +18,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import { toast } from "sonner";
 import { calculateDaysFrom } from "@/utils/calculateDaysFrom";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import { defaultExercise } from "@/lib/constants/persian";
 
 const DailyWorkout: React.FC = () => {
   // const [exercises, setExercises] = useLocalStorage<Exercise[]>(pickedDate, []);
@@ -26,17 +27,10 @@ const DailyWorkout: React.FC = () => {
   const [editedExercise, setEditedExercise] = useState<Partial<Exercise>>({});
   const [editingExercise, setEditingExercise] = useState<string | null>(null);
   const { exercises, setExercises } = useOutletContext<ExercisesMutateProps>();
-  const [exerciseTypes] = useLocalStorage<string[]>("exerciseTypes", [
-    "کاردیو",
-    "بدنسازی",
-    "یوگا",
-    "پیلاتس",
-    "دویدن",
-    "شنا",
-    "دوچرخه سواری",
-    "پیاده روی",
-    "ورزش‌های تیمی",
-  ]);
+  const [exerciseTypes] = useLocalStorage<string[]>(
+    "exerciseTypes",
+    defaultExercise,
+  );
   // Today's stats
   const { pickedDate } = useParams<keyof Params>() as { pickedDate: string };
   const [ModifiedPickedDate, setModifiedPickedDate] = useState<string>("");
@@ -102,29 +96,6 @@ const DailyWorkout: React.FC = () => {
       isPercentage: true,
     },
   ];
-
-  // Updated JSX for comparison bars
-  // const comparisons = [
-  //   {
-  //     title: "مدت زمان",
-  //     today: exercises?.reduce((acc, curr) => acc + curr.duration, 0) || 0,
-  //     avg:
-  //       extraData.totalDuration &&
-  //       extraData.daysPassed &&
-  //       (extraData.totalDuration / extraData.daysPassed).toFixed(0),
-  //     unit: "دقیقه",
-  //   },
-  //   {
-  //     title: "کالری",
-  //     today:
-  //       exercises?.reduce((acc, curr) => acc + curr.caloriesBurned, 0) || 0,
-  //     avg:
-  //       extraData.totalCalories &&
-  //       extraData.daysPassed &&
-  //       (extraData.totalCalories / extraData.daysPassed).toFixed(0),
-  //     unit: "کالری",
-  //   },
-  // ] as Comparisons[];
 
   const handleRemove = (exerName: string) => {
     if (!window.confirm("آیا از حذف این تمرین مطمئن هستید؟")) return;
@@ -194,15 +165,15 @@ const DailyWorkout: React.FC = () => {
         nextDaysPassed = calculateDaysFrom(nextFirstDay);
       }
     }
-    console.log(
-      nextTotalCalories,
-      nextTotalCalories,
-      nextDaysWithWorkouts,
-      nextFirstDay,
-      nextLastDay,
-      nextDaysPassed,
-      nextRegisteredDates,
-    );
+    // console.log(
+    //   nextTotalCalories,
+    //   nextTotalCalories,
+    //   nextDaysWithWorkouts,
+    //   nextFirstDay,
+    //   nextLastDay,
+    //   nextDaysPassed,
+    //   nextRegisteredDates,
+    // );
     setExtraData((prev) => ({
       ...prev,
       totalCalories: nextTotalCalories,

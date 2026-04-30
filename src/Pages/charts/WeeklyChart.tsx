@@ -19,6 +19,7 @@ import {
   Calendar,
   Flame,
 } from "lucide-react";
+import { daysInWeekFa } from "@/lib/constants/persian";
 
 // Mock Exercise type since we don't have access to the actual type
 interface Exercise {
@@ -52,18 +53,6 @@ const safeParseExercises = (raw: string | null): Exercise[] => {
     return [];
   }
 };
-
-const daysInWeekFa = [
-  "شنبه",
-  "یک‌شنبه",
-  "دوشنبه",
-  "سه‌شنبه",
-  "چهارشنبه",
-  "پنج‌شنبه",
-  "جمعه",
-];
-
-const daysInWeekEn = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
 
 const getStartOfWeek = (dateObj: DateObject) => {
   const d = makeDO(dateObj.toDate());
