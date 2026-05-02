@@ -2,11 +2,7 @@
 import React from "react";
 import { CirclePlus, Target } from "lucide-react";
 import { DialogTrigger } from "@/components/ui/dialog";
-
-interface ActionButtonsProps {
-  onWorkoutClick: () => void;
-  onGoalsClick: () => void;
-}
+import type { ActionButtonsProps } from "../types/types";
 
 export const ActionButtons: React.FC<ActionButtonsProps> = ({
   onWorkoutClick,

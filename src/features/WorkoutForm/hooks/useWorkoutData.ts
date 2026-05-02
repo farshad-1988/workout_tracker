@@ -6,18 +6,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import type { ExtraData } from "@/types/types";
-
-const DEFAULT_EXERCISE_TYPES = [
-  "کاردیو",
-  "بدنسازی",
-  "یوگا",
-  "پیلاتس",
-  "دویدن",
-  "شنا",
-  "دوچرخه سواری",
-  "پیاده روی",
-  "ورزش‌های تیمی",
-];
+import { defaultExercise } from "@/lib/constants/persian";
 
 export const useWorkoutData = () => {
   const { pickedDate } = useParams<{ pickedDate: string }>();
@@ -25,7 +14,7 @@ export const useWorkoutData = () => {
 
   const [exerciseTypes, setExerciseTypes] = useLocalStorage(
     "exerciseTypes",
-    DEFAULT_EXERCISE_TYPES,
+    defaultExercise,
   );
 
   const [extraData, setExtraData] = useLocalStorage<ExtraData>("extraData", {

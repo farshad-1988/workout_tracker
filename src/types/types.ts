@@ -133,3 +133,10 @@ export interface WeekLabel {
   startOfWeek: DateObject;
   endOfWeek: DateObject;
 }
+
+export interface UseGoalsFormProps {
+  extraData: ExtraData;
+  setExtraData: React.Dispatch<React.SetStateAction<ExtraData>>;
+  isOpen: boolean;
+  onSuccess: () => void;
+}

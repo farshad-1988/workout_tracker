@@ -6,19 +6,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { AlertCircle } from "lucide-react";
-import { type UseFormReturn } from "react-hook-form";
 import checkDay from "@/utils/checkDay";
-import type { WorkoutFormData } from "../schemas/workoutSchemas";
 import AddExerciseType from "@/components/AddExerciseType";
-
-interface WorkoutDialogProps {
-  form: UseFormReturn<WorkoutFormData>;
-  exerciseTypes: string[];
-  setExerciseTypes: React.Dispatch<React.SetStateAction<string[]>>;
-  isDuplicateExerciseName: boolean;
-  onSubmit: (data: WorkoutFormData) => Promise<void>;
-  displayDate: string;
-}
+import type { WorkoutDialogProps } from "../types/types";
 
 export const WorkoutDialog: React.FC<WorkoutDialogProps> = ({
   form,

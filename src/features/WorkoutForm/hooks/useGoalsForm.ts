@@ -4,15 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-import type { ExtraData } from "@/types/types";
+import type { UseGoalsFormProps } from "@/types/types";
 import { goalsSchema, type GoalsFormData } from "../schemas/workoutSchemas";
-
-interface UseGoalsFormProps {
-  extraData: ExtraData;
-  setExtraData: React.Dispatch<React.SetStateAction<ExtraData>>;
-  isOpen: boolean;
-  onSuccess: () => void;
-}
 
 export const useGoalsForm = ({
   extraData,

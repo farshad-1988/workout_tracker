@@ -6,15 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { AlertCircle, Settings } from "lucide-react";
-import { type UseFormReturn } from "react-hook-form";
-import type { ExtraData } from "@/types/types";
-import type { GoalsFormData } from "../schemas/workoutSchemas";
-
-interface GoalsDialogProps {
-  form: UseFormReturn<GoalsFormData>;
-  extraData: ExtraData;
-  onSubmit: (data: GoalsFormData) => Promise<void>;
-}
+import type { GoalsDialogProps } from "../types/types";
 
 export const GoalsDialog: React.FC<GoalsDialogProps> = ({
   form,
