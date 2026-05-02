@@ -30,8 +30,8 @@ export type ExtraData = {
   lastDay?: string;
   daysPassed?: number;
   registeredDate?: string[];
-  dailyDurationGoal?: number;
-  dailyCalorieGoal?: number;
+  dailyDurationGoal: number;
+  dailyCalorieGoal: number;
 };
 export type UpdatedData = {
   totalCalories?: number;
