@@ -4,7 +4,9 @@ import MainLayout from "./layouts/MainLayout";
 import DailyWorkout from "./features/dailyWorkout/DailyWorkout";
 
 // Lazy load heavy components
-const WeeklyChart = lazy(() => import("./Pages/charts/WeeklyChart"));
+const WeeklyChart = lazy(
+  () => import("./features/WeeklyChart/WeeklyChart.tsx"),
+);
 const DailyWorkoutPage = lazy(
   () => import("./features/dailyWorkout/DailyWorkout.tsx"),
 );
