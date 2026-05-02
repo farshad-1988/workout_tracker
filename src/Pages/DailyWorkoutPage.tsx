@@ -1,4 +1,4 @@
-import DailyWorkout from "@/components/DailyWorkout";
+import DailyWorkout from "@/features/dailyWorkout/DailyWorkout";
 
 const DailyWorkoutPage = () => {
   return (
