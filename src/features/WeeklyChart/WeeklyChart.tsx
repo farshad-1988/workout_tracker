@@ -1,5 +1,3 @@
-// src/components/WeeklyChart/index.tsx
-import { useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,13 +9,13 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { TrendingUp, Flame, Calendar } from "lucide-react";
-import { daysInWeekFa } from "@/lib/constants/persian";
 import { useWeeklyCalories } from "./hooks/useWeeklyCalories";
 import { ChartHeader } from "./components/ChartHeader";
 import { LoadingOverlay } from "./components/LoadingOverlay";
 import { chartOptions } from "./config/chartConfig";
 import { StatCard } from "./components/StatCard";
 import { ChartFooter } from "./components/ChartFooter";
+import { makeChartData, makeWeekLabel } from "./utils/calculateChartInfo";
 
 ChartJS.register(
   CategoryScale,
@@ -29,8 +27,6 @@ ChartJS.register(
 );
 
 export default function WeeklyChart() {
-  const [weekOffset, setWeekOffset] = useState<number>(0);
-
   const {
     caloriesData,
     isLoading,
@@ -38,27 +34,12 @@ export default function WeeklyChart() {
     avgCalories,
     startOfWeek,
     endOfWeek,
-  } = useWeeklyCalories(weekOffset);
+    weekOffset,
+    setWeekOffset,
+  } = useWeeklyCalories();
 
-  const chartData = {
-    labels: daysInWeekFa,
-    datasets: [
-      {
-        label: "Calories Burned",
-        data: caloriesData,
-        borderColor: "rgb(59, 130, 246)",
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
-        pointBackgroundColor: "rgb(59, 130, 246)",
-        pointBorderColor: "#ffffff",
-        fill: true,
-        spanGaps: true,
-      },
-    ],
-  };
-
-  const weekLabel = `${startOfWeek.format("YYYY/MM/DD")} – ${endOfWeek.format(
-    "YYYY/MM/DD",
-  )}`;
+  const chartData = makeChartData(caloriesData);
+  const weekLabel = makeWeekLabel({ startOfWeek, endOfWeek });
 
   return (
     <div className="w-full h-full p-2 sm:p-8 lg:p-16 relative">

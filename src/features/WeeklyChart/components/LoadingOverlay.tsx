@@ -1,7 +1,6 @@
 // src/components/WeeklyChart/LoadingOverlay.tsx
-interface LoadingOverlayProps {
-  isLoading: boolean;
-}
+
+import type { LoadingOverlayProps } from "@/types/types";
 
 export function LoadingOverlay({ isLoading }: LoadingOverlayProps) {
   if (!isLoading) return null;

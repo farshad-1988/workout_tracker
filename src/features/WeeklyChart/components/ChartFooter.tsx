@@ -1,16 +1,10 @@
 // src/components/WeeklyChart/ChartFooter.tsx
-import { daysInWeekFa } from "@/lib/constants/persian";
 
-interface ChartFooterProps {
-  caloriesData: (number | null)[];
-  totalCalories: number;
-}
+import type { ChartFooterProps } from "@/types/types";
+import { calBestDay } from "../utils/calculateChartInfo";
 
 export function ChartFooter({ caloriesData, totalCalories }: ChartFooterProps) {
-  const validCalories = caloriesData.filter((c) => c !== null) as number[];
-  const maxCalories = validCalories.length > 0 ? Math.max(...validCalories) : 0;
-  const bestDayIndex = caloriesData.indexOf(maxCalories);
-  const bestDay = bestDayIndex !== -1 ? daysInWeekFa[bestDayIndex] : "N/A";
+  const bestDay = calBestDay(caloriesData);
 
   return (
     <div className="mt-6 pt-6 border-t border-gray-200/50">

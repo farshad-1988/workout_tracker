@@ -6,6 +6,7 @@
 //   date: string;
 // }
 import { type LucideIcon } from "lucide-react";
+import type { DateObject } from "react-multi-date-picker";
 
 export type Exercise = {
   caloriesBurned: number;
@@ -110,4 +111,25 @@ export interface StatCardProps {
   label: string;
   value: string | number;
   color: string;
+}
+export interface ChartHeaderProps {
+  weekLabel: string;
+  weekOffset: number;
+  onPreviousWeek: () => void;
+  onNextWeek: () => void;
+}
+export interface LoadingOverlayProps {
+  isLoading: boolean;
+}
+
+export interface ChartFooterProps {
+  caloriesData: (number | null)[];
+  totalCalories: number;
+}
+
+export type CaloriesData = (number | null)[];
+
+export interface WeekLabel {
+  startOfWeek: DateObject;
+  endOfWeek: DateObject;
 }

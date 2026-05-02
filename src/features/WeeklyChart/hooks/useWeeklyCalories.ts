@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { makeDO, cloneDO, getStartOfWeek } from "../utils/dateHelper";
 import { safeParseExercises } from "../utils/storageHelper";
 
-export function useWeeklyCalories(weekOffset: number) {
+export function useWeeklyCalories() {
+  const [weekOffset, setWeekOffset] = useState<number>(0);
   const [caloriesData, setCaloriesData] = useState<(number | null)[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [totalCalories, setTotalCalories] = useState<number>(0);
@@ -70,5 +71,7 @@ export function useWeeklyCalories(weekOffset: number) {
     avgCalories,
     startOfWeek,
     endOfWeek,
+    weekOffset,
+    setWeekOffset,
   };
 }

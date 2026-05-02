@@ -1,12 +1,6 @@
 // src/components/WeeklyChart/ChartHeader.tsx
+import type { ChartHeaderProps } from "@/types/types";
 import { ChevronLeft, ChevronRight, Flame } from "lucide-react";
-
-interface ChartHeaderProps {
-  weekLabel: string;
-  weekOffset: number;
-  onPreviousWeek: () => void;
-  onNextWeek: () => void;
-}
 
 export function ChartHeader({
   weekLabel,
