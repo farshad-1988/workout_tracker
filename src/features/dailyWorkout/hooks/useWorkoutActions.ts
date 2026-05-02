@@ -1,22 +1,14 @@
 // components/DailyWorkout/useWorkoutActions.ts
-import type { Exercise, ExtraData } from "@/types/types";
+import type {
+  Exercise,
+  ExtraData,
+  UseWorkoutActionsProps,
+} from "@/types/types";
 import { toast } from "sonner";
 import { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { calculateDaysFrom } from "@/utils/calculateDaysFrom";
-
-interface UseWorkoutActionsProps {
-  exercises: Exercise[];
-  setExercises: any;
-  extraData: ExtraData;
-  setExtraData: any;
-  modifiedPickedDate: string;
-  editedExercise: Partial<Exercise>;
-  setEditedExercise: any;
-  editingExercise: string | null;
-  setEditingExercise: any;
-}
 
 export const useWorkoutActions = ({
   exercises,
@@ -26,7 +18,6 @@ export const useWorkoutActions = ({
   modifiedPickedDate,
   editedExercise,
   setEditedExercise,
-  editingExercise,
   setEditingExercise,
 }: UseWorkoutActionsProps) => {
   const handleRemove = (exerName: string) => {

@@ -68,3 +68,38 @@ export interface ComparisonItem {
   icon: string;
   isPercentage?: boolean;
 }
+export interface OutletContext {
+  exercises: Exercise[];
+  setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+}
+export interface UseDailyWorkoutProps {
+  exercises: Exercise[];
+  setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+  pickedDate: string;
+}
+// components/DailyWorkout/useWorkoutActions.ts
+export interface UseWorkoutActionsProps {
+  exercises: Exercise[];
+  setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+  extraData: ExtraData;
+  setExtraData: React.Dispatch<React.SetStateAction<ExtraData>>;
+  modifiedPickedDate: string;
+  editedExercise: Partial<Exercise>;
+  setEditedExercise: React.Dispatch<React.SetStateAction<Partial<Exercise>>>;
+  editingExercise: string | null;
+  setEditingExercise: React.Dispatch<React.SetStateAction<string | null>>;
+}
+// components/DailyWorkout/EmptyWorkoutState.tsx
+export interface EmptyWorkoutStateProps {
+  pickedDate: string;
+  modifiedPickedDate: string;
+  exercises: Exercise[];
+  setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+}
+// components/DailyWorkout/WorkoutHeader.tsx
+export interface WorkoutHeaderProps {
+  pickedDate: string;
+  modifiedPickedDate: string;
+  exercises: Exercise[];
+  setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+}

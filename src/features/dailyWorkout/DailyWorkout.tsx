@@ -728,9 +728,10 @@ import EmptyWorkoutState from "./components/EmptyWorkoutState";
 import WorkoutTable from "./components/WorkoutTable";
 import WorkoutComparison from "./components/WorkoutComparison";
 import { useDailyWorkout } from "./hooks/useDailyWorkout";
+import type { OutletContext } from "@/types/types";
 
 const DailyWorkout: React.FC = () => {
-  const { exercises, setExercises } = useOutletContext<any>();
+  const { exercises, setExercises } = useOutletContext<OutletContext>();
   const { pickedDate } = useParams<keyof Params>() as { pickedDate: string };
 
   const {

@@ -1,17 +1,11 @@
 // components/DailyWorkout/useDailyWorkout.ts
 import { useState } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import type { Exercise, ExtraData } from "@/types/types";
+import type { Exercise, ExtraData, UseDailyWorkoutProps } from "@/types/types";
 import { defaultExercise } from "@/lib/constants/persian";
 import { useModifiedPickedDate } from "./useModifiedPickedDate";
 import { useWorkoutComparisons } from "./useWorkoutComparisons";
 import { useWorkoutActions } from "./useWorkoutActions";
-
-interface UseDailyWorkoutProps {
-  exercises: Exercise[];
-  setExercises: any;
-  pickedDate: string;
-}
 
 export const useDailyWorkout = ({
   exercises,
