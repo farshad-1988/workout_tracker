@@ -3,13 +3,7 @@ import React from "react";
 import { Activity } from "lucide-react";
 import checkDay from "@/utils/checkDay";
 import WorkoutForm from "@/components/modals/WorkoutForm";
-
-interface WorkoutHeaderProps {
-  pickedDate: string;
-  modifiedPickedDate: string;
-  exercises: any[];
-  setExercises: any;
-}
+import type { WorkoutHeaderProps } from "@/types/types";
 
 const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({
   pickedDate,

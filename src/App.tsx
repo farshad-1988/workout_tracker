@@ -1,18 +1,20 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import MainLayout from "./layouts/MainLayout";
-import Home from "./Pages/Home";
+import DailyWorkout from "./features/dailyWorkout/DailyWorkout";
 
 // Lazy load heavy components
 const WeeklyChart = lazy(() => import("./Pages/charts/WeeklyChart"));
-const DailyWorkoutPage = lazy(() => import("./Pages/DailyWorkoutPage"));
+const DailyWorkoutPage = lazy(
+  () => import("./features/dailyWorkout/DailyWorkout.tsx"),
+);
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route index element={<Home />} />
+          <Route index element={<DailyWorkout />} />
           <Route
             path="/dailyworkout/:pickedDate"
             element={

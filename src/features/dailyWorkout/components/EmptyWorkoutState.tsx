@@ -1,13 +1,7 @@
 // components/DailyWorkout/EmptyWorkoutState.tsx
 import WorkoutForm from "@/components/modals/WorkoutForm";
+import type { EmptyWorkoutStateProps } from "@/types/types";
 import React from "react";
-
-interface EmptyWorkoutStateProps {
-  pickedDate: string;
-  modifiedPickedDate: string;
-  exercises: any[];
-  setExercises: any;
-}
 
 const EmptyWorkoutState: React.FC<EmptyWorkoutStateProps> = ({
   exercises,

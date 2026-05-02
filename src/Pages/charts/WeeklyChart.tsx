@@ -7,6 +7,8 @@ import {
   LineElement,
   Tooltip,
   Filler,
+  type ChartOptions,
+  type TooltipItem,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { DateObject } from "react-multi-date-picker";
@@ -20,11 +22,7 @@ import {
   Flame,
 } from "lucide-react";
 import { daysInWeekFa } from "@/lib/constants/persian";
-
-// Mock Exercise type since we don't have access to the actual type
-interface Exercise {
-  caloriesBurned?: number;
-}
+import type { Exercise, StatCardProps } from "@/types/types";
 
 ChartJS.register(
   CategoryScale,
@@ -35,26 +33,26 @@ ChartJS.register(
   Filler,
 );
 
-const makeDO = (input?: Date | string) =>
+const makeDO = (input?: Date | string): DateObject =>
   new DateObject({
     date: input,
     calendar: persian,
     locale: persian_fa,
   });
 
-const cloneDO = (d: DateObject) => makeDO(d.toDate());
+const cloneDO = (d: DateObject): DateObject => makeDO(d.toDate());
 
-const safeParseExercises = (raw: string | null): Exercise[] => {
+const safeParseExercises = (raw: string | null): Partial<Exercise>[] => {
   if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as Exercise[]) : [];
+    return Array.isArray(parsed) ? (parsed as Partial<Exercise>[]) : [];
   } catch {
     return [];
   }
 };
 
-const getStartOfWeek = (dateObj: DateObject) => {
+const getStartOfWeek = (dateObj: DateObject): DateObject => {
   const d = makeDO(dateObj.toDate());
   for (let i = 0; i < 7; i++) {
     if (d.weekDay && d.weekDay.name === "شنبه") {
@@ -69,11 +67,11 @@ const getStartOfWeek = (dateObj: DateObject) => {
 };
 
 export default function WeeklyChart() {
-  const [weekOffset, setWeekOffset] = useState(0);
+  const [weekOffset, setWeekOffset] = useState<number>(0);
   const [caloriesData, setCaloriesData] = useState<(number | null)[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [totalCalories, setTotalCalories] = useState(0);
-  const [avgCalories, setAvgCalories] = useState(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [totalCalories, setTotalCalories] = useState<number>(0);
+  const [avgCalories, setAvgCalories] = useState<number>(0);
 
   const today = useMemo(() => makeDO(), []);
 
@@ -126,11 +124,10 @@ export default function WeeklyChart() {
     setTotalCalories(total);
     setAvgCalories(validDays > 0 ? Math.round(total / validDays) : 0);
 
-    // Simulate loading for smooth transition
     setTimeout(() => setIsLoading(false), 0);
   }, [startOfWeek, today, weekOffset]);
 
-  const chartOptions: any = {
+  const chartOptions: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     interaction: {
@@ -152,10 +149,10 @@ export default function WeeklyChart() {
         padding: 16,
         displayColors: false,
         callbacks: {
-          title: (context: any) => {
+          title: (context: TooltipItem<"line">[]) => {
             return daysInWeekFa[context[0].dataIndex];
           },
-          label: (context: any) => {
+          label: (context: TooltipItem<"line">) => {
             return context.parsed.y !== null
               ? `${context.parsed.y} کالری`
               : "داده‌ای موجود نیست";
@@ -175,14 +172,13 @@ export default function WeeklyChart() {
           color: "#6B7280",
           font: {
             size: 12,
-            weight: "500",
+            weight: 500,
           },
         },
       },
       y: {
         grid: {
           color: "rgba(107, 114, 128, 0.1)",
-          drawBorder: false,
         },
         border: {
           display: false,
@@ -192,7 +188,7 @@ export default function WeeklyChart() {
           font: {
             size: 12,
           },
-          callback: (value: any) => `${value}`,
+          callback: (tickValue: string | number) => `${tickValue}`,
         },
       },
     },
@@ -211,7 +207,7 @@ export default function WeeklyChart() {
   };
 
   const chartData = {
-    labels: daysInWeekEn,
+    labels: daysInWeekFa,
     datasets: [
       {
         label: "Calories Burned",
@@ -230,17 +226,7 @@ export default function WeeklyChart() {
     "YYYY/MM/DD",
   )}`;
 
-  const StatCard = ({
-    icon: Icon,
-    label,
-    value,
-    color,
-  }: {
-    icon: any;
-    label: string;
-    value: string | number;
-    color: string;
-  }) => (
+  const StatCard = ({ icon: Icon, label, value, color }: StatCardProps) => (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]">
       <div className="w-full flex text-center justify-between items-center space-x-3 ">
         <div className={`p-2 sm:p-3 rounded-xl bg-gradient-to-br ${color}`}>
