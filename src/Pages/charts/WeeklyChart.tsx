@@ -20,20 +20,9 @@ import {
   TrendingUp,
   Calendar,
   Flame,
-  type LucideIcon,
 } from "lucide-react";
 import { daysInWeekFa } from "@/lib/constants/persian";
-
-interface Exercise {
-  caloriesBurned?: number;
-}
-
-interface StatCardProps {
-  icon: LucideIcon;
-  label: string;
-  value: string | number;
-  color: string;
-}
+import type { Exercise, StatCardProps } from "@/types/types";
 
 ChartJS.register(
   CategoryScale,
@@ -53,11 +42,11 @@ const makeDO = (input?: Date | string): DateObject =>
 
 const cloneDO = (d: DateObject): DateObject => makeDO(d.toDate());
 
-const safeParseExercises = (raw: string | null): Exercise[] => {
+const safeParseExercises = (raw: string | null): Partial<Exercise>[] => {
   if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as Exercise[]) : [];
+    return Array.isArray(parsed) ? (parsed as Partial<Exercise>[]) : [];
   } catch {
     return [];
   }

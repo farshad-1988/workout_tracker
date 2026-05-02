@@ -5,6 +5,7 @@
 //   caloriesBurned: number;
 //   date: string;
 // }
+import { type LucideIcon } from "lucide-react";
 
 export type Exercise = {
   caloriesBurned: number;
@@ -102,4 +103,11 @@ export interface WorkoutHeaderProps {
   modifiedPickedDate: string;
   exercises: Exercise[];
   setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+}
+
+export interface StatCardProps {
+  icon: LucideIcon;
+  label: string;
+  value: string | number;
+  color: string;
 }
