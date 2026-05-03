@@ -1,5 +1,3 @@
-// components/WorkoutForm/WorkoutDialog.tsx
-import React, { useState } from "react";
 import {
   DialogContent,
   DialogDescription,
@@ -7,23 +5,20 @@ import {
 } from "@/components/ui/dialog";
 import { AlertCircle } from "lucide-react";
 import checkDay from "@/utils/checkDay";
-import AddExerciseType from "@/features/forms/addExerciseType/components/AddExerciseTypeIn";
 import type { WorkoutDialogProps } from "../types/types";
+import AddExerciseType from "../../addExerciseType/AddExerciseType";
 
 export const WorkoutDialog: React.FC<WorkoutDialogProps> = ({
   form,
   exerciseTypes,
-  setExerciseTypes,
   isDuplicateExerciseName,
   onSubmit,
   displayDate,
 }) => {
-  const [showAddType, setShowAddType] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue,
   } = form;
 
   return (
@@ -117,26 +112,6 @@ export const WorkoutDialog: React.FC<WorkoutDialogProps> = ({
                       </option>
                     ))}
                   </select>
-                  <button
-                    type="button"
-                    onClick={() => setShowAddType(true)}
-                    className="px-3 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all duration-200 flex items-center justify-center group"
-                    title="افزودن نوع تمرین جدید"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 4v16m8-8H4"
-                      />
-                    </svg>
-                  </button>
                 </div>
                 {errors.exerciseType && (
                   <div className="flex items-center gap-1 mt-2 text-sm text-red-600">
@@ -144,16 +119,8 @@ export const WorkoutDialog: React.FC<WorkoutDialogProps> = ({
                     <span>{errors.exerciseType.message}</span>
                   </div>
                 )}
+                <AddExerciseType />
               </div>
-
-              {showAddType && (
-                <AddExerciseType
-                  setExerciseTypes={setExerciseTypes}
-                  exerciseTypes={exerciseTypes}
-                  setShowAddType={setShowAddType}
-                  setValue={setValue}
-                />
-              )}
 
               {/* Duration and Calories */}
               <div className="grid grid-cols-2 gap-4">

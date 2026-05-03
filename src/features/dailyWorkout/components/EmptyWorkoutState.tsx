@@ -1,7 +1,8 @@
 // components/DailyWorkout/EmptyWorkoutState.tsx
-import WorkoutForm from "@/components/modals/WorkoutForm";
 import type { EmptyWorkoutStateProps } from "@/types/types";
 import React from "react";
+import AddWorkout from "../forms/addWorkout/addWorkout";
+import SetGoal from "../forms/setGoal/SetGoal";
 
 const EmptyWorkoutState: React.FC<EmptyWorkoutStateProps> = ({
   exercises,
@@ -10,7 +11,8 @@ const EmptyWorkoutState: React.FC<EmptyWorkoutStateProps> = ({
   return (
     <div className="flex gap-6 text-2xl font-bold items-center justify-center mt-32 text-center text-gray-900">
       هنوز تمرینی برای این تاریخ ثبت نکرده اید
-      <WorkoutForm exercises={exercises} setExercises={setExercises} />
+      <AddWorkout exercises={exercises} setExercises={setExercises} />
+      <SetGoal />
     </div>
   );
 };

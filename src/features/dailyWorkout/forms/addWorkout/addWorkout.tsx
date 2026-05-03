@@ -2,19 +2,16 @@
 import React, { useState } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import type { ExercisesMutateProps } from "@/types/types";
-import { useWorkoutData } from "../../shared/hooks/useWorkoutData";
 import { useWorkoutForm } from "./hooks/useWorkoutForm";
-import { useGoalsForm } from "./hooks/useGoalsForm";
 import { ActionButtons } from "./components/ActionButtons";
 import { WorkoutDialog } from "./components/WorkoutDialog";
-import { GoalsDialog } from "./components/GoalsDialog";
+import { useWorkoutData } from "@/shared/hooks/useWorkoutData";
 
-const WorkoutForm: React.FC<ExercisesMutateProps> = ({
+const AddWorkout: React.FC<ExercisesMutateProps> = ({
   exercises,
   setExercises,
 }) => {
   const [workoutOpen, setWorkoutOpen] = useState(false);
-  const [goalsOpen, setGoalsOpen] = useState(false);
 
   const {
     modifiedPickedDate,
@@ -37,22 +34,12 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
     onSuccess: () => setWorkoutOpen(false),
   });
 
-  const { form: goalsForm, submitGoals } = useGoalsForm({
-    extraData,
-    setExtraData,
-    isOpen: goalsOpen,
-    onSuccess: () => setGoalsOpen(false),
-  });
-
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-4 items-stretch">
         {/* Workout Dialog */}
         <Dialog open={workoutOpen} onOpenChange={setWorkoutOpen}>
-          <ActionButtons
-            onWorkoutClick={() => setWorkoutOpen(true)}
-            onGoalsClick={() => setGoalsOpen(true)}
-          />
+          <ActionButtons onWorkoutClick={() => setWorkoutOpen(true)} />
           {workoutOpen && (
             <WorkoutDialog
               form={workoutForm}
@@ -64,20 +51,9 @@ const WorkoutForm: React.FC<ExercisesMutateProps> = ({
             />
           )}
         </Dialog>
-
-        {/* Goals Dialog */}
-        <Dialog open={goalsOpen} onOpenChange={setGoalsOpen}>
-          {goalsOpen && (
-            <GoalsDialog
-              form={goalsForm}
-              extraData={extraData}
-              onSubmit={submitGoals}
-            />
-          )}
-        </Dialog>
       </div>
     </div>
   );
 };
 
-export default WorkoutForm;
+export default AddWorkout;

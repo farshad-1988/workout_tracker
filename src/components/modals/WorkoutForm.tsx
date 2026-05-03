@@ -23,7 +23,6 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import AddExerciseType from "../AddExerciseType";
 
 // Define Zod schema for workout form
 const schema = z.object({
