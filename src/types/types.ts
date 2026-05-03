@@ -30,8 +30,8 @@ export type ExtraData = {
   lastDay?: string;
   daysPassed?: number;
   registeredDate?: string[];
-  dailyDurationGoal?: number;
-  dailyCalorieGoal?: number;
+  dailyDurationGoal: number;
+  dailyCalorieGoal: number;
 };
 export type UpdatedData = {
   totalCalories?: number;
@@ -132,4 +132,11 @@ export type CaloriesData = (number | null)[];
 export interface WeekLabel {
   startOfWeek: DateObject;
   endOfWeek: DateObject;
+}
+
+export interface UseGoalsFormProps {
+  extraData: ExtraData;
+  setExtraData: React.Dispatch<React.SetStateAction<ExtraData>>;
+  isOpen: boolean;
+  onSuccess: () => void;
 }

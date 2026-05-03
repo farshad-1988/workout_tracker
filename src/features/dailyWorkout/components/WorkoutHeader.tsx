@@ -2,8 +2,9 @@
 import React from "react";
 import { Activity } from "lucide-react";
 import checkDay from "@/utils/checkDay";
-import WorkoutForm from "@/components/modals/WorkoutForm";
 import type { WorkoutHeaderProps } from "@/types/types";
+import AddWorkout from "../forms/addWorkout/addWorkout";
+import SetGoal from "../forms/setGoal/SetGoal";
 
 const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({
   pickedDate,
@@ -30,7 +31,10 @@ const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({
           )}
         </div>
         {exercises.length !== 0 ? (
-          <WorkoutForm exercises={exercises} setExercises={setExercises} />
+          <>
+            <AddWorkout exercises={exercises} setExercises={setExercises} />
+            <SetGoal />
+          </>
         ) : (
           <div className="text-xl md:hidden text-gray-900 italic">
             داشبورد {checkDay(pickedDate ?? modifiedPickedDate)}

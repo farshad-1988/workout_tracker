@@ -1,21 +1,20 @@
 import { useState } from "react";
-import type { UseFormSetValue } from "react-hook-form";
+
 interface AddExerciseTypeProps {
   setShowAddType: (show: boolean) => void;
   exerciseTypes: string[];
   setExerciseTypes: (types: string[] | ((prev: string[]) => string[])) => void;
-  setValue: UseFormSetValue<{
-    exerciseName: string;
-    exerciseType: string;
-    duration: number;
-    caloriesBurned: number;
-  }>;
+  // setValue: UseFormSetValue<{
+  //   exerciseName: string;
+  //   exerciseType: string;
+  //   duration: number;
+  //   caloriesBurned: number;
+  // }>;
 }
-const AddExerciseType = ({
+const AddExerciseTypeIn = ({
   setShowAddType,
   exerciseTypes,
   setExerciseTypes,
-  setValue,
 }: AddExerciseTypeProps) => {
   const [newExerciseType, setNewExerciseType] = useState("");
 
@@ -26,7 +25,6 @@ const AddExerciseType = ({
     ) {
       const updatedTypes = [...exerciseTypes, newExerciseType.trim()];
       setExerciseTypes(updatedTypes);
-      setValue("exerciseType", newExerciseType.trim());
       setNewExerciseType("");
       setShowAddType(false);
     }
@@ -94,4 +92,4 @@ const AddExerciseType = ({
   );
 };
 
-export default AddExerciseType;
+export default AddExerciseTypeIn;
