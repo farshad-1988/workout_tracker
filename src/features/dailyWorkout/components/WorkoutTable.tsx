@@ -3,6 +3,7 @@ import React from "react";
 import type { Exercise } from "@/types/types";
 import checkDay from "@/utils/checkDay";
 import WorkoutTableRow from "./WorkoutTableRow";
+import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
 
 interface WorkoutTableProps {
   exercises: Exercise[];
@@ -19,7 +20,6 @@ interface WorkoutTableProps {
 }
 
 const WorkoutTable: React.FC<WorkoutTableProps> = ({
-  exercises,
   pickedDate,
   modifiedPickedDate,
   exerciseTypes,
@@ -31,6 +31,10 @@ const WorkoutTable: React.FC<WorkoutTableProps> = ({
   onCancel,
   onEditedExerciseChange,
 }) => {
+  // const { state, dispatch } = useContext(ExerciseContext);
+  // const exercises = state.exercisesByDate[modifiedPickedDate];
+  const { exercises } = useDailyData(modifiedPickedDate);
+
   return (
     <div className="mx-auto flex flex-col gap-6 w-full">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
