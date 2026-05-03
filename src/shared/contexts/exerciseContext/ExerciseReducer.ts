@@ -4,12 +4,22 @@ export default function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_DAILY_GOAL": {
       const nextGoal = new Map(state.dailyGoalByDate);
-      nextGoal.set(action.dateKey, action.goal);
+      nextGoal.set(action.dateKey, {
+        duration: action.duration,
+        colories: action.colories,
+      });
       return { ...state, dailyGoalByDate: nextGoal };
     }
 
     case "ADD_EXERCISE": {
       const nextExercises = new Map(state.exercisesByDate);
+      const nextGoal = new Map(state.dailyGoalByDate);
+      if (!nextGoal.has(action.dateKey)) {
+        nextGoal.set(action.dateKey, {
+          duration: 60,
+          colories: 200,
+        });
+      }
       const existing = nextExercises.get(action.dateKey) ?? [];
       nextExercises.set(action.dateKey, [...existing, action.exercise]);
       return { ...state, exercisesByDate: nextExercises };

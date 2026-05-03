@@ -60,7 +60,11 @@ const ComparisonCard: React.FC<ComparisonCardProps> = ({ item }) => {
       )}
 
       {item.isPercentage && item.average > 0 && (
-        <ActivityRateDisplay current={item.current} average={item.average} />
+        <ActivityRateDisplay
+          workoutDays={item.workoutDays}
+          average={item.average}
+          daysPassed={item.daysPassed}
+        />
       )}
     </div>
   );

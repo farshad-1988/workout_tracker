@@ -21,7 +21,7 @@ export const useDailyWorkout = ({
   );
 
   const modifiedPickedDate = useModifiedPickedDate(pickedDate);
-  const comparisons = useWorkoutComparisons({ exercises, extraData });
+  const comparisons = useWorkoutComparisons(modifiedPickedDate);
 
   const { handleRemove, handleEdit, handleCancel, handleSave } =
     useWorkoutActions({

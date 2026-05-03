@@ -7,13 +7,16 @@ interface ActivityRateDisplayProps {
 }
 
 const ActivityRateDisplay: React.FC<ActivityRateDisplayProps> = ({
-  current,
+  daysPassed,
   average,
+  workoutDays,
 }) => {
+  console.log(average, daysPassed, workoutDays);
   return (
     <div className="text-xs text-gray-500">
-      <span className="font-semibold text-gray-700">{current} روز</span> از{" "}
-      <span className="font-semibold text-gray-700">{average} روز</span>
+      <span className="font-semibold text-gray-700">{workoutDays} روز</span> از
+      {daysPassed}
+      <span className="font-semibold text-gray-700">{average}</span>
     </div>
   );
 };

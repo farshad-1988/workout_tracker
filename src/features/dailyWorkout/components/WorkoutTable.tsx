@@ -26,8 +26,8 @@ const WorkoutTable: React.FC<WorkoutTableProps> = ({
   editingExercise,
   editedExercise,
   onEdit,
-  onRemove,
-  onSave,
+  // onRemove,
+  // onSave,
   onCancel,
   onEditedExerciseChange,
 }) => {
@@ -73,8 +73,8 @@ const WorkoutTable: React.FC<WorkoutTableProps> = ({
                   isEditing={editingExercise === exercise.exerciseName}
                   editedExercise={editedExercise}
                   onEdit={() => onEdit(exercise.exerciseName)}
-                  onRemove={() => onRemove(exercise.exerciseName)}
-                  onSave={() => onSave(exercise.exerciseName)}
+                  // onRemove={() => onRemove(exercise.exerciseName)}
+                  // onSave={() => onSave(exercise.exerciseName)}
                   onCancel={onCancel}
                   onEditedExerciseChange={onEditedExerciseChange}
                 />

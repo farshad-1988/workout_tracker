@@ -1,26 +1,27 @@
 // features/workout-comparison/useWorkoutComparisons.ts
 import { useMemo } from "react";
-import type { ComparisonItem, Exercise, ExtraData } from "@/types/types";
+import type { ComparisonItem } from "@/types/types";
+import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
+import {
+  calculateDaysFrom,
+  daysWithWorkout,
+  getActiveDailyAverageColories,
+  getActiveDailyAverageDuration,
+  getActiveDaysAverage,
+} from "../forms/addWorkout/selectors/exerciseStates";
+import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 
-interface UseWorkoutComparisonsProps {
-  exercises: Exercise[];
-  extraData: ExtraData;
-}
+export const useWorkoutComparisons = (modifiedDate): ComparisonItem[] => {
+  const { exercises, goal } = useDailyData(modifiedDate);
+  const { state } = useExercise();
 
-export const useWorkoutComparisons = ({
-  exercises,
-  extraData,
-}: UseWorkoutComparisonsProps): ComparisonItem[] => {
   return useMemo(
     () => [
       {
         title: "مدت ورزش امروز",
         current: exercises?.reduce((acc, curr) => acc + curr.duration, 0) || 0,
-        average:
-          extraData.totalDuration && extraData.daysWithWorkouts
-            ? Math.round(extraData.totalDuration / extraData.daysWithWorkouts)
-            : 0,
-        target: extraData.dailyDurationGoal || 60,
+        average: getActiveDailyAverageDuration(state),
+        target: goal.duration || 60,
         unit: "دقیقه",
         color: "blue",
         icon: "⏱️",
@@ -29,25 +30,23 @@ export const useWorkoutComparisons = ({
         title: "کالری سوخته",
         current:
           exercises?.reduce((acc, curr) => acc + curr.caloriesBurned, 0) || 0,
-        average:
-          extraData.totalCalories && extraData.daysWithWorkouts
-            ? Math.round(extraData.totalCalories / extraData.daysWithWorkouts)
-            : 0,
-        target: extraData.dailyCalorieGoal || 500,
+        average: getActiveDailyAverageColories(state),
+        target: goal.colories || 500,
         unit: "کالری",
         color: "orange",
         icon: "🔥",
       },
       {
         title: "نرخ فعالیت",
-        current: extraData.daysWithWorkouts || 0,
-        average: extraData.daysPassed || 0,
+        workoutDays: daysWithWorkout(state).length || 0,
+        average: getActiveDaysAverage(state) || 0,
+        current: daysWithWorkout(state).length || 0,
+        daysPassed: calculateDaysFrom(modifiedDate),
         unit: "روز فعال",
         color: "green",
         icon: "📅",
-        isPercentage: true,
       },
     ],
-    [exercises, extraData],
+    [exercises, goal.colories, goal.duration, modifiedDate, state],
   );
 };

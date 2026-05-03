@@ -10,7 +10,7 @@ export function useDailyData(date: string) {
   );
 
   const dailyGoal = useMemo(
-    () => state.dailyGoalByDate.get(date) ?? 0, // هدف پیش‌فرض 0
+    () => state.dailyGoalByDate.get(date) ?? { duration: 60, colories: 200 }, // هدف پیش‌فرض 0
     [state.dailyGoalByDate, date],
   );
 
