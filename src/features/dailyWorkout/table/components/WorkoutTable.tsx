@@ -1,46 +1,22 @@
 // components/DailyWorkout/WorkoutTable.tsx
 import React from "react";
-import type { Exercise } from "@/types/types";
 import checkDay from "@/utils/checkDay";
 import WorkoutTableRow from "./WorkoutTableRow";
 import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
 
 interface WorkoutTableProps {
-  exercises: Exercise[];
-  pickedDate: string;
-  modifiedPickedDate: string;
-  exerciseTypes: string[];
-  editingExercise: string | null;
-  editedExercise: Partial<Exercise>;
-  onEdit: (name: string) => void;
-  onRemove: (name: string) => void;
-  onSave: (name: string) => void;
-  onCancel: () => void;
-  onEditedExerciseChange: (exercise: Partial<Exercise>) => void;
+  dateKey: string;
 }
 
-const WorkoutTable: React.FC<WorkoutTableProps> = ({
-  pickedDate,
-  modifiedPickedDate,
-  exerciseTypes,
-  editingExercise,
-  editedExercise,
-  onEdit,
-  // onRemove,
-  // onSave,
-  onCancel,
-  onEditedExerciseChange,
-}) => {
-  // const { state, dispatch } = useContext(ExerciseContext);
-  // const exercises = state.exercisesByDate[modifiedPickedDate];
-  const { exercises } = useDailyData(modifiedPickedDate);
+const WorkoutTable: React.FC<WorkoutTableProps> = ({ dateKey }) => {
+  const { exercises } = useDailyData(dateKey);
 
   return (
     <div className="mx-auto flex flex-col gap-6 w-full">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">
-            لیست تمرین‌های {checkDay(pickedDate ?? modifiedPickedDate)}
+            لیست تمرین‌های {checkDay(dateKey)}
           </h2>
         </div>
         <div className="overflow-x-auto">
@@ -66,18 +42,7 @@ const WorkoutTable: React.FC<WorkoutTableProps> = ({
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
               {exercises.map((exercise) => (
-                <WorkoutTableRow
-                  key={exercise.exerciseName}
-                  exercise={exercise}
-                  exerciseTypes={exerciseTypes}
-                  isEditing={editingExercise === exercise.exerciseName}
-                  editedExercise={editedExercise}
-                  onEdit={() => onEdit(exercise.exerciseName)}
-                  // onRemove={() => onRemove(exercise.exerciseName)}
-                  // onSave={() => onSave(exercise.exerciseName)}
-                  onCancel={onCancel}
-                  onEditedExerciseChange={onEditedExerciseChange}
-                />
+                <WorkoutTableRow exercise={exercise} dateKey={dateKey} />
               ))}
             </tbody>
           </table>

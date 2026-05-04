@@ -3,11 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import checkDay from "@/utils/checkDay";
 
-import type { Exercise, ExtraData, UpdatedData } from "@/types/types";
+import type { Exercise, ExtraData } from "@/types/types";
 import { workoutSchema, type WorkoutFormData } from "../schemas/workoutSchemas";
-import { useContext } from "react";
-import { ExerciseContext } from "@/shared/contexts/exerciseContext/utils/contextCreator";
 import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
+import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 
 interface UseWorkoutFormProps {
   exercises: Exercise[];
@@ -20,8 +19,6 @@ interface UseWorkoutFormProps {
 
 export const useWorkoutForm = ({
   modifiedPickedDate,
-  extraData,
-  setExtraData,
   onSuccess,
 }: UseWorkoutFormProps) => {
   const form = useForm<WorkoutFormData>({
@@ -34,7 +31,7 @@ export const useWorkoutForm = ({
       caloriesBurned: 0,
     },
   });
-  const { dispatch } = useContext(ExerciseContext);
+  const { dispatch } = useExercise();
 
   const { exercises } = useDailyData(modifiedPickedDate);
   const watchedExerciseName = form.watch("exerciseName");
@@ -56,19 +53,6 @@ export const useWorkoutForm = ({
     // }
 
     try {
-      const updatedData: UpdatedData = {};
-
-      updatedData.totalCalories =
-        (extraData.totalCalories || 0) + data.caloriesBurned;
-      updatedData.totalDuration =
-        (extraData.totalDuration || 0) + data.duration;
-
-      setExtraData((prev) => ({ ...prev, ...updatedData }));
-
-      toast.success("تمرین با موفقیت ثبت شد!", {
-        description: " در تمرینات " + checkDay(modifiedPickedDate),
-      });
-
       dispatch({
         type: "ADD_EXERCISE",
         dateKey: modifiedPickedDate,
@@ -76,8 +60,11 @@ export const useWorkoutForm = ({
           ...data,
           exerciseName: data.exerciseName.trim(),
           date: modifiedPickedDate,
-          id: crypto.getRandomValues,
+          id: crypto.randomUUID().replace(/-/g, ""),
         },
+      });
+      toast.success("تمرین با موفقیت ثبت شد!", {
+        description: " در تمرینات " + checkDay(modifiedPickedDate),
       });
 
       form.reset();

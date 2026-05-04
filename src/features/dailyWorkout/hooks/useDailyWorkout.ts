@@ -4,7 +4,7 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import type { Exercise, ExtraData, UseDailyWorkoutProps } from "@/types/types";
 import { defaultExercise } from "@/lib/constants/persian";
 import { useModifiedPickedDate } from "./useModifiedPickedDate";
-import { useWorkoutComparisons } from "./useWorkoutComparisons";
+import { useWorkoutComparisons } from "../comparisons/hooks/useWorkoutComparisons";
 import { useWorkoutActions } from "./useWorkoutActions";
 
 export const useDailyWorkout = ({

@@ -8,7 +8,7 @@ import {
   getActiveDailyAverageColories,
   getActiveDailyAverageDuration,
   getActiveDaysAverage,
-} from "../forms/addWorkout/selectors/exerciseStates";
+} from "../../../../shared/contexts/exerciseContext/selectors/exerciseStates";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 
 export const useWorkoutComparisons = (modifiedDate): ComparisonItem[] => {

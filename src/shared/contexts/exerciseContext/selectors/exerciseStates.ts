@@ -78,3 +78,7 @@ export function getActiveDaysAverage(state): number {
   const daysPassed = calculateDaysFrom(firstDay);
   return (activeDays / daysPassed).toFixed(2);
 }
+
+export function getGoals(state, dateKey) {
+  return state.dailyGoalByDate.get(dateKey) || { colories: 200, duration: 60 };
+}
