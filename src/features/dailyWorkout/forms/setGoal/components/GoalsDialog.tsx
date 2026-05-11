@@ -7,17 +7,18 @@ import {
 } from "@/components/ui/dialog";
 import { AlertCircle, Settings } from "lucide-react";
 import type { GoalsDialogProps } from "@/features/WorkoutForm/types/types";
+import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
+import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
 
-export const GoalsDialog: React.FC<GoalsDialogProps> = ({
-  form,
-  extraData,
-  onSubmit,
-}) => {
+export const GoalsDialog: React.FC<GoalsDialogProps> = ({ form, onSubmit }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = form;
+  const dateKey = useModifiedPickedDate();
+  const { state } = useExercise();
+  const goal = state.dailyGoalByDate.get(dateKey);
 
   return (
     <DialogContent className="sm:max-w-[500px]">
@@ -100,15 +101,14 @@ export const GoalsDialog: React.FC<GoalsDialogProps> = ({
               </div>
 
               {/* Current Goals Display */}
-              {(extraData.dailyCalorieGoal > 0 ||
-                extraData.dailyDurationGoal > 0) && (
+              {(goal?.colories || goal?.duration) && (
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <div className="text-sm font-medium text-blue-900 mb-2">
                     اهداف فعلی:
                   </div>
                   <div className="text-sm text-blue-700 space-y-1">
-                    <div>کالری: {extraData.dailyCalorieGoal || 0} کالری</div>
-                    <div>زمان: {extraData.dailyDurationGoal || 0} دقیقه</div>
+                    <div>کالری: {goal?.colories || 0} کالری</div>
+                    <div>زمان: {goal?.duration || 0} دقیقه</div>
                   </div>
                 </div>
               )}

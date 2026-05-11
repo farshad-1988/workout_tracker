@@ -3,18 +3,13 @@ import React, { useState } from "react";
 import { Dialog } from "@/components/ui/dialog";
 
 import { GoalsDialog } from "./components/GoalsDialog";
-import { useWorkoutData } from "@/shared/hooks/useWorkoutData";
 import { useGoalsForm } from "./hooks/useGoalsForm";
 import { ActionButtons } from "./components/ActionButton";
 
 const SetGoal = () => {
   const [goalsOpen, setGoalsOpen] = useState(false);
 
-  const { extraData, setExtraData } = useWorkoutData();
-
   const { form: goalsForm, submitGoals } = useGoalsForm({
-    extraData,
-    setExtraData,
     isOpen: goalsOpen,
     onSuccess: () => setGoalsOpen(false),
   });
@@ -26,13 +21,7 @@ const SetGoal = () => {
         <Dialog open={goalsOpen} onOpenChange={setGoalsOpen}>
           <ActionButtons onGoalsClick={() => setGoalsOpen(true)} />
 
-          {goalsOpen && (
-            <GoalsDialog
-              form={goalsForm}
-              extraData={extraData}
-              onSubmit={submitGoals}
-            />
-          )}
+          {goalsOpen && <GoalsDialog form={goalsForm} onSubmit={submitGoals} />}
         </Dialog>
       </div>
     </div>

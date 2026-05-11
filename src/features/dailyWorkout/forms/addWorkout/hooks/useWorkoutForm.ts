@@ -1,29 +1,18 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { calculateDaysFrom } from "@/utils/calculateDaysFrom";
 import checkDay from "@/utils/checkDay";
-
-import type { Exercise, ExtraData, UpdatedData } from "@/types/types";
 import { workoutSchema, type WorkoutFormData } from "../schemas/workoutSchemas";
+import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
+import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
+import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
 
 interface UseWorkoutFormProps {
-  exercises: Exercise[];
-  setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
   modifiedPickedDate: string;
-  extraData: ExtraData;
-  setExtraData: React.Dispatch<React.SetStateAction<ExtraData>>;
   onSuccess: () => void;
 }
 
-export const useWorkoutForm = ({
-  exercises,
-  setExercises,
-  modifiedPickedDate,
-  extraData,
-  setExtraData,
-  onSuccess,
-}: UseWorkoutFormProps) => {
+export const useWorkoutForm = ({ onSuccess }: UseWorkoutFormProps) => {
   const form = useForm<WorkoutFormData>({
     resolver: zodResolver(workoutSchema),
     mode: "onChange",
@@ -34,74 +23,39 @@ export const useWorkoutForm = ({
       caloriesBurned: 0,
     },
   });
-
+  const { dispatch } = useExercise();
+  const dateKey = useModifiedPickedDate();
+  const { exercises } = useDailyData(dateKey);
   const watchedExerciseName = form.watch("exerciseName");
 
   const isDuplicateExerciseName = exercises.some(
     (ex) =>
       ex.exerciseName.trim().toLowerCase() ===
-        watchedExerciseName?.trim().toLowerCase() &&
-      ex.date === modifiedPickedDate,
+        watchedExerciseName?.trim().toLowerCase() && ex.date === dateKey,
   );
 
   const submitForm = async (data: WorkoutFormData) => {
-    if (isDuplicateExerciseName) {
-      toast.error("تمرین ثبت نشد", {
-        description:
-          "لطفاً نام تمرین را تغییر دهید، این نام قبلاً در این تاریخ ثبت شده است.",
-      });
-      return;
-    }
+    // if (isDuplicateExerciseName) {
+    //   toast.error("تمرین ثبت نشد", {
+    //     description:
+    //       "لطفاً نام تمرین را تغییر دهید، این نام قبلاً در این تاریخ ثبت شده است.",
+    //   });
+    //   return;
+    // }
 
     try {
-      const updatedData: UpdatedData = {};
-      const hasExistingExercises =
-        localStorage.getItem(modifiedPickedDate) &&
-        Array.isArray(JSON.parse(localStorage.getItem(modifiedPickedDate)!)) &&
-        JSON.parse(localStorage.getItem(modifiedPickedDate)!).length !== 0;
-
-      updatedData.totalCalories =
-        (extraData.totalCalories || 0) + data.caloriesBurned;
-      updatedData.totalDuration =
-        (extraData.totalDuration || 0) + data.duration;
-
-      if (!hasExistingExercises) {
-        updatedData.firstDay = !extraData.firstDay
-          ? modifiedPickedDate
-          : extraData.firstDay > modifiedPickedDate
-            ? modifiedPickedDate
-            : extraData.firstDay;
-
-        updatedData.lastDay = !extraData.lastDay
-          ? modifiedPickedDate
-          : extraData.lastDay < modifiedPickedDate
-            ? modifiedPickedDate
-            : extraData.lastDay;
-
-        updatedData.daysPassed = calculateDaysFrom(updatedData.firstDay);
-
-        updatedData.registeredDate =
-          !extraData.registeredDate?.includes(modifiedPickedDate) &&
-          extraData.registeredDate
-            ? [...extraData.registeredDate, modifiedPickedDate]
-            : extraData.registeredDate || [modifiedPickedDate];
-
-        updatedData.daysWithWorkouts = updatedData.registeredDate.length;
-      }
-
-      setExtraData((prev) => ({ ...prev, ...updatedData }));
-
-      setExercises((prev) => [
-        ...prev,
-        {
+      dispatch({
+        type: "ADD_EXERCISE",
+        dateKey,
+        exercise: {
           ...data,
           exerciseName: data.exerciseName.trim(),
-          date: modifiedPickedDate,
+          date: dateKey,
+          id: crypto.randomUUID().replace(/-/g, ""),
         },
-      ]);
-
+      });
       toast.success("تمرین با موفقیت ثبت شد!", {
-        description: " در تمرینات " + checkDay(modifiedPickedDate),
+        description: " در تمرینات " + checkDay(dateKey),
       });
 
       form.reset();

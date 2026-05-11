@@ -1,36 +1,19 @@
 // components/WorkoutForm/index.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Dialog } from "@/components/ui/dialog";
-import type { ExercisesMutateProps } from "@/types/types";
 import { useWorkoutForm } from "./hooks/useWorkoutForm";
 import { ActionButtons } from "./components/ActionButtons";
 import { WorkoutDialog } from "./components/WorkoutDialog";
-import { useWorkoutData } from "@/shared/hooks/useWorkoutData";
+import { useModifiedPickedDate } from "../../hooks/useModifiedPickedDate";
 
-const AddWorkout: React.FC<ExercisesMutateProps> = ({
-  exercises,
-  setExercises,
-}) => {
+const AddWorkout = () => {
   const [workoutOpen, setWorkoutOpen] = useState(false);
-
-  const {
-    modifiedPickedDate,
-    exerciseTypes,
-    setExerciseTypes,
-    extraData,
-    setExtraData,
-  } = useWorkoutData();
-
+  const dateKey = useModifiedPickedDate();
   const {
     form: workoutForm,
     isDuplicateExerciseName,
     submitForm,
   } = useWorkoutForm({
-    exercises,
-    setExercises,
-    modifiedPickedDate,
-    extraData,
-    setExtraData,
     onSuccess: () => setWorkoutOpen(false),
   });
 
@@ -43,11 +26,9 @@ const AddWorkout: React.FC<ExercisesMutateProps> = ({
           {workoutOpen && (
             <WorkoutDialog
               form={workoutForm}
-              exerciseTypes={exerciseTypes}
-              setExerciseTypes={setExerciseTypes}
               isDuplicateExerciseName={isDuplicateExerciseName}
               onSubmit={submitForm}
-              displayDate={modifiedPickedDate}
+              displayDate={dateKey}
             />
           )}
         </Dialog>

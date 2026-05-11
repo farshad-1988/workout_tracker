@@ -1,19 +1,11 @@
 import React, { useState } from "react";
 import AddExerciseTypeIn from "./components/AddExerciseTypeIn";
-import { useWorkoutData } from "@/shared/hooks/useWorkoutData";
 
 const AddExerciseType = () => {
   const [showAddType, setShowAddType] = useState(false);
-  const { exerciseTypes, setExerciseTypes } = useWorkoutData();
 
   if (showAddType) {
-    return (
-      <AddExerciseTypeIn
-        setExerciseTypes={setExerciseTypes}
-        exerciseTypes={exerciseTypes}
-        setShowAddType={setShowAddType}
-      />
-    );
+    return <AddExerciseTypeIn setShowAddType={setShowAddType} />;
   }
 
   return (

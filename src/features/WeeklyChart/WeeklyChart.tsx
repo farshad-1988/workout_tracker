@@ -32,14 +32,11 @@ export default function WeeklyChart() {
     isLoading,
     totalCalories,
     avgCalories,
-    startOfWeek,
-    endOfWeek,
     weekOffset,
     setWeekOffset,
+    chartData,
+    weekLabel,
   } = useWeeklyCalories();
-
-  const chartData = makeChartData(caloriesData);
-  const weekLabel = makeWeekLabel({ startOfWeek, endOfWeek });
 
   return (
     <div className="w-full h-full p-2 sm:p-8 lg:p-16 relative">
