@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AddExerciseTypeIn from "./components/AddExerciseTypeIn";
 
 const AddExerciseType = () => {

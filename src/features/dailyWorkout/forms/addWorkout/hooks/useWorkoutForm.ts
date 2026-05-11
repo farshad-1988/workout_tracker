@@ -6,11 +6,7 @@ import { workoutSchema, type WorkoutFormData } from "../schemas/workoutSchemas";
 import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
-
-interface UseWorkoutFormProps {
-  modifiedPickedDate: string;
-  onSuccess: () => void;
-}
+import type { UseWorkoutFormProps } from "@/types/types";
 
 export const useWorkoutForm = ({ onSuccess }: UseWorkoutFormProps) => {
   const form = useForm<WorkoutFormData>({

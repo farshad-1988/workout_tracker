@@ -1,4 +1,3 @@
-// components/DailyWorkout/WorkoutHeader.tsx
 import { Activity } from "lucide-react";
 import checkDay from "@/utils/checkDay";
 import AddWorkout from "../forms/addWorkout/addWorkout";

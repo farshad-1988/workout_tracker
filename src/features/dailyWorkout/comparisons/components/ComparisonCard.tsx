@@ -1,11 +1,9 @@
-// features/workout-comparison/ComparisonCard.tsx
 import React from "react";
 import type { ComparisonItem } from "@/types/types";
 import ComparisonHeader from "./ComparisonHeader";
 import { useComparisonCalculations } from "../hooks/useComparisonCalculations";
 import { COLOR_SCHEMES } from "../../constants/style";
 import ComparisonValue from "./ComparisonValue";
-import AverageProgressBar from "./AverageProgressBar";
 import TargetProgressBar from "./TargetProgressBar";
 
 interface ComparisonCardProps {

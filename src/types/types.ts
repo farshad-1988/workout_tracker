@@ -1,10 +1,3 @@
-// export interface ExerciseForm {
-//   exerciseName: string;
-//   exerciseType: string;
-//   duration: number;
-//   caloriesBurned: number;
-//   date: string;
-// }
 import { type LucideIcon } from "lucide-react";
 import type { DateObject } from "react-multi-date-picker";
 
@@ -14,6 +7,7 @@ export type Exercise = {
   duration: number;
   exerciseName: string;
   exerciseType: string;
+  id: string;
 };
 export interface ExercisesMutateProps {
   exercises: Exercise[];
@@ -135,8 +129,13 @@ export interface WeekLabel {
 }
 
 export interface UseGoalsFormProps {
-  extraData: ExtraData;
-  setExtraData: React.Dispatch<React.SetStateAction<ExtraData>>;
   isOpen: boolean;
+  onSuccess: () => void;
+}
+
+export interface WorkoutComparisonProps {
+  comparisons: ComparisonItem[];
+}
+export interface UseWorkoutFormProps {
   onSuccess: () => void;
 }

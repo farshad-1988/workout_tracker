@@ -10,6 +10,7 @@ interface ComparisonHeaderProps {
   isPositive: boolean;
   isNeutral: boolean;
   isPercentage?: boolean;
+  title: string;
 }
 
 const ComparisonHeader: React.FC<ComparisonHeaderProps> = ({

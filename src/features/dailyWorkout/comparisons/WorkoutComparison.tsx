@@ -1,11 +1,7 @@
 // features/workout-comparison/WorkoutComparison.tsx
 import React from "react";
-import type { ComparisonItem } from "@/types/types";
 import ComparisonCard from "./components/ComparisonCard";
-
-interface WorkoutComparisonProps {
-  comparisons: ComparisonItem[];
-}
+import type { WorkoutComparisonProps } from "@/types/types";
 
 const WorkoutComparison: React.FC<WorkoutComparisonProps> = ({
   comparisons,

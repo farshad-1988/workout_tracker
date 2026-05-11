@@ -2,11 +2,10 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { makeDO, cloneDO, getStartOfWeek } from "../utils/dateHelper";
-import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
-import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
 import { makeChartData, makeWeekLabel } from "../utils/calculateChartInfo";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { getExercisesInADay } from "@/shared/contexts/exerciseContext/selectors/exerciseStates";
+import type { Exercise } from "@/types/types";
 
 export function useWeeklyCalories() {
   const [weekOffset, setWeekOffset] = useState<number>(0);
@@ -15,11 +14,7 @@ export function useWeeklyCalories() {
   const [totalCalories, setTotalCalories] = useState<number>(0);
   const [avgCalories, setAvgCalories] = useState<number>(0);
   const today = useMemo(() => makeDO(), []);
-  const { state, dispatch } = useExercise();
-  // const dateKey = useModifiedPickedDate();
-  // const { exercises } = useDailyData(dateKey);
-
-  // const exercises = useMemo(() => [], []);
+  const { state } = useExercise();
 
   const startOfWeek = useMemo(() => {
     const base = getStartOfWeek(today);
@@ -46,7 +41,7 @@ export function useWeeklyCalories() {
       const dateFormated = dayDate.format("YYYY-MM-DD");
       const exercises = getExercisesInADay(state, dateFormated);
       const caloriesForDay = exercises.reduce(
-        (total, ex) => total + (ex.caloriesBurned || 0),
+        (total: number, ex: Exercise) => total + (ex.caloriesBurned || 0),
         0,
       );
 

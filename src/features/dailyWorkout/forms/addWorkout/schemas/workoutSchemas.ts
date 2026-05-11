@@ -1,4 +1,3 @@
-// schemas/workoutSchemas.ts
 import { z } from "zod";
 
 export const workoutSchema = z.object({

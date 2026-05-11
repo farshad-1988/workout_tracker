@@ -15,7 +15,6 @@ import { LoadingOverlay } from "./components/LoadingOverlay";
 import { chartOptions } from "./config/chartConfig";
 import { StatCard } from "./components/StatCard";
 import { ChartFooter } from "./components/ChartFooter";
-import { makeChartData, makeWeekLabel } from "./utils/calculateChartInfo";
 
 ChartJS.register(
   CategoryScale,

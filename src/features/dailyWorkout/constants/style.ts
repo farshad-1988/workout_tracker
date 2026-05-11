@@ -1,4 +1,3 @@
-// features/workout-comparison/constants.ts
 import type { ColorSchemes } from "@/types/types";
 
 export const COLOR_SCHEMES: ColorSchemes = {

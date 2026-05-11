@@ -6,9 +6,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { AlertCircle, Settings } from "lucide-react";
-import type { GoalsDialogProps } from "@/features/WorkoutForm/types/types";
+
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
+import type { GoalsDialogProps } from "../schemas/types";
 
 export const GoalsDialog: React.FC<GoalsDialogProps> = ({ form, onSubmit }) => {
   const {

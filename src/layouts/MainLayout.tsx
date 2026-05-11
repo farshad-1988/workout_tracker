@@ -1,21 +1,8 @@
-import { Outlet, useParams, type Params } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import { Toaster } from "sonner";
 
 const MainLayout = () => {
-  // const { pickedDate } = useParams<keyof Params>() as { pickedDate: string };
-  // const [ModifiedPickedDate, setModifiedPickedDate] = useState<string>("");
-
-  // useEffect(() => {
-  //   if (!pickedDate)
-  //     setModifiedPickedDate(
-  //       new DateObject({
-  //         calendar: persian,
-  //         locale: persian_fa,
-  //       }).format("YYYY-MM-DD"),
-  //     );
-  // }, [pickedDate]);
-
   return (
     <div className="w-full h-full ">
       <Navbar />
