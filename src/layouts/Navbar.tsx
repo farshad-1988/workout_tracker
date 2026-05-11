@@ -1,11 +1,10 @@
-import ShamsiCalendar from "@/components/ShamsiCalendar";
+import ShamsiCalendar from "@/utils/ShamsiCalendar";
 import { Button } from "@/components/ui/button";
-import type { ExercisesMutateProps } from "@/types/types";
 import { Link } from "react-router-dom";
 import { Menu, X, Home, BarChart3, Dumbbell } from "lucide-react";
 import { useState } from "react";
 
-const Navbar: React.FC<ExercisesMutateProps> = () => {
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {

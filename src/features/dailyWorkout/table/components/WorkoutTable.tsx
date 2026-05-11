@@ -1,14 +1,10 @@
-// components/DailyWorkout/WorkoutTable.tsx
-import React from "react";
 import checkDay from "@/utils/checkDay";
 import WorkoutTableRow from "./WorkoutTableRow";
 import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
+import { useModifiedPickedDate } from "../../hooks/useModifiedPickedDate";
 
-interface WorkoutTableProps {
-  dateKey: string;
-}
-
-const WorkoutTable: React.FC<WorkoutTableProps> = ({ dateKey }) => {
+const WorkoutTable = () => {
+  const dateKey = useModifiedPickedDate();
   const { exercises } = useDailyData(dateKey);
 
   return (

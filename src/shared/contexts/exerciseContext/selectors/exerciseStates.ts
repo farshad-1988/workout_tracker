@@ -82,3 +82,7 @@ export function getActiveDaysAverage(state): number {
 export function getGoals(state, dateKey) {
   return state.dailyGoalByDate.get(dateKey) || { colories: 200, duration: 60 };
 }
+export function getExercisesInADay(state, dateKey) {
+  console.log(state.exercisesByDate.get(dateKey));
+  return state.exercisesByDate.get(dateKey) || [];
+}

@@ -5,6 +5,7 @@ export type DateKey = string;
 export interface State {
   exercisesByDate: Map<DateKey, Exercise[]>;
   dailyGoalByDate: Map<DateKey, { duration: number; colories: number }>;
+  exerciseTypes: string[];
 }
 
 export type Action =
@@ -28,4 +29,5 @@ export interface ExerciseContextType {
 export type PersistedState = {
   exercisesByDate?: Record<string, Exercise[]>;
   dailyGoalByDate?: Record<string, { duration: number; colories: number }>;
+  exerciseTypes: string[];
 };

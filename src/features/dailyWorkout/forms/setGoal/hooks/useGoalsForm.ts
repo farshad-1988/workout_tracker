@@ -54,18 +54,15 @@ import { toast } from "sonner";
 
 import type { UseGoalsFormProps } from "@/types/types";
 import { goalsSchema, type GoalsFormData } from "../schemas/goalSchema";
-import { useWorkoutDispatch } from "@/context/workout-context";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { getGoals } from "@/shared/contexts/exerciseContext/selectors/exerciseStates";
+import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
 
 // اگر در پروژه‌ات useWorkoutDispatch اسمش فرق دارد بگو
-export const useGoalsForm = ({
-  isOpen,
-  onSuccess,
-  dateKey,
-}: UseGoalsFormProps) => {
+export const useGoalsForm = ({ isOpen, onSuccess }: UseGoalsFormProps) => {
   const { dispatch, state } = useExercise();
 
+  const dateKey = useModifiedPickedDate();
   const form = useForm<GoalsFormData>({
     resolver: zodResolver(goalsSchema),
     mode: "onChange",
@@ -84,7 +81,7 @@ export const useGoalsForm = ({
       dailyCalorieGoal: goals.colories ?? 0,
       dailyDurationGoal: goals.duration ?? 0,
     });
-  }, [form, isOpen]);
+  }, [dateKey, form, isOpen, state]);
 
   const submitGoals = async (data: GoalsFormData) => {
     try {

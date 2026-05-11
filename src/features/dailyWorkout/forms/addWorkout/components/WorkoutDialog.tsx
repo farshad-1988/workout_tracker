@@ -7,14 +7,17 @@ import { AlertCircle } from "lucide-react";
 import checkDay from "@/utils/checkDay";
 import type { WorkoutDialogProps } from "../types/types";
 import AddExerciseType from "../../addExerciseType/AddExerciseType";
+import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 
 export const WorkoutDialog: React.FC<WorkoutDialogProps> = ({
   form,
-  exerciseTypes,
   isDuplicateExerciseName,
   onSubmit,
   displayDate,
 }) => {
+  const { state } = useExercise();
+  console.log(state);
+  const exerciseTypes = [...state.exerciseTypes];
   const {
     register,
     handleSubmit,

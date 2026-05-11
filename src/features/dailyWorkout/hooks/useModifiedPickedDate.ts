@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { useParams, type Params } from "react-router-dom";
 
-export const useModifiedPickedDate = (pickedDate: string): string => {
+export const useModifiedPickedDate = (): string => {
+  const { pickedDate } = useParams<keyof Params>() as { pickedDate: string };
   const [modifiedPickedDate, setModifiedPickedDate] = useState<string>("");
 
   useEffect(() => {

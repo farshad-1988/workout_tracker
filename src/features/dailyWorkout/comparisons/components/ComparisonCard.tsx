@@ -7,7 +7,6 @@ import { COLOR_SCHEMES } from "../../constants/style";
 import ComparisonValue from "./ComparisonValue";
 import AverageProgressBar from "./AverageProgressBar";
 import TargetProgressBar from "./TargetProgressBar";
-import ActivityRateDisplay from "./ActivityRateDisplay";
 
 interface ComparisonCardProps {
   item: ComparisonItem;
@@ -28,6 +27,7 @@ const ComparisonCard: React.FC<ComparisonCardProps> = ({ item }) => {
         isPositive={isPositive}
         isNeutral={isNeutral}
         isPercentage={item.isPercentage}
+        title={item.title}
       />
 
       <h3 className="text-sm font-medium text-gray-600 mb-2">{item.title}</h3>
@@ -39,16 +39,6 @@ const ComparisonCard: React.FC<ComparisonCardProps> = ({ item }) => {
         isPercentage={item.isPercentage}
       />
 
-      {!item.isPercentage && item.average > 0 && (
-        <AverageProgressBar
-          current={item.current}
-          average={item.average}
-          unit={item.unit}
-          isPositive={isPositive}
-          isNeutral={isNeutral}
-        />
-      )}
-
       {targetProgress !== null && (
         <TargetProgressBar
           targetProgress={targetProgress}
@@ -56,14 +46,6 @@ const ComparisonCard: React.FC<ComparisonCardProps> = ({ item }) => {
           current={item.current}
           unit={item.unit}
           scheme={scheme}
-        />
-      )}
-
-      {item.isPercentage && item.average > 0 && (
-        <ActivityRateDisplay
-          workoutDays={item.workoutDays}
-          average={item.average}
-          daysPassed={item.daysPassed}
         />
       )}
     </div>

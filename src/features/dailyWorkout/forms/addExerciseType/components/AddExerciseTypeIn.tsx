@@ -1,50 +1,49 @@
+import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { useState } from "react";
 
 interface AddExerciseTypeProps {
   setShowAddType: (show: boolean) => void;
-  exerciseTypes: string[];
-  setExerciseTypes: (types: string[] | ((prev: string[]) => string[])) => void;
-  // setValue: UseFormSetValue<{
-  //   exerciseName: string;
-  //   exerciseType: string;
-  //   duration: number;
-  //   caloriesBurned: number;
-  // }>;
 }
-const AddExerciseTypeIn = ({
-  setShowAddType,
-  exerciseTypes,
-  setExerciseTypes,
-}: AddExerciseTypeProps) => {
+
+const AddExerciseTypeIn = ({ setShowAddType }: AddExerciseTypeProps) => {
   const [newExerciseType, setNewExerciseType] = useState("");
 
+  const { state, dispatch } = useExercise();
+  const exerciseTypes = state.exerciseTypes;
+
   const handleAddExerciseType = () => {
-    if (
-      newExerciseType.trim() &&
-      !exerciseTypes.includes(newExerciseType.trim())
-    ) {
-      const updatedTypes = [...exerciseTypes, newExerciseType.trim()];
-      setExerciseTypes(updatedTypes);
-      setNewExerciseType("");
-      setShowAddType(false);
+    const value = newExerciseType.trim();
+    if (!value) return;
+
+    if (!exerciseTypes.includes(value)) {
+      dispatch({
+        type: "ADD_EXERCISE_TYPE",
+        payload: value,
+      });
     }
+
+    setNewExerciseType("");
+    setShowAddType(false);
   };
+
   const handleCancelAddType = () => {
     setNewExerciseType("");
     setShowAddType(false);
   };
+
   return (
     <div
       className="fixed inset-0 bg-slate-100 bg-opacity-40 flex items-center justify-center z-50"
-      onClick={handleCancelAddType} // Close when clicking backdrop
+      onClick={handleCancelAddType}
     >
       <div
         className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-lg"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking modal content
+        onClick={(e) => e.stopPropagation()}
       >
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           افزودن نوع تمرین جدید
         </h3>
+
         <input
           type="text"
           value={newExerciseType}
@@ -52,14 +51,12 @@ const AddExerciseTypeIn = ({
           placeholder="نام نوع تمرین را وارد کنید"
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleAddExerciseType();
-            } else if (e.key === "Escape") {
-              handleCancelAddType();
-            }
+            if (e.key === "Enter") handleAddExerciseType();
+            if (e.key === "Escape") handleCancelAddType();
           }}
           autoFocus
         />
+
         <div
           className={`text-red-700 ${
             !exerciseTypes.includes(newExerciseType.trim()) && "hidden"
@@ -67,6 +64,7 @@ const AddExerciseTypeIn = ({
         >
           این تمرین تکراری است.
         </div>
+
         <div className="flex gap-3 justify-end">
           <button
             type="button"
@@ -75,6 +73,7 @@ const AddExerciseTypeIn = ({
           >
             انصراف
           </button>
+
           <button
             type="button"
             onClick={handleAddExerciseType}

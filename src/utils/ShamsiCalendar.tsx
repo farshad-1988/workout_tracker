@@ -1,17 +1,22 @@
 import { Calendar } from "react-multi-date-picker";
 import persian_fa from "react-date-object/locales/persian_fa";
 import persian from "react-date-object/calendars/persian";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../components/ui/dialog";
+import { Button } from "../components/ui/button";
 import { useState } from "react";
 import { useNavigate, useParams, type Params } from "react-router-dom";
 import DateObject from "react-date-object";
-import useLocalStorage from "@/hooks/useLocalStorage";
-import type { ExtraData } from "@/types/types";
+import { daysWithWorkout } from "@/shared/contexts/exerciseContext/selectors/exerciseStates";
+import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 
 const ShamsiCalendar = () => {
+  const { state } = useExercise();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [extraData] = useLocalStorage<ExtraData>("extraData", {});
   const navigate = useNavigate();
   const { pickedDate }: Readonly<Params<string>> = useParams();
 
@@ -21,7 +26,8 @@ const ShamsiCalendar = () => {
     navigate(`/dailyworkout/${selected.format("YYYY-MM-DD")}`);
     setDialogOpen(false);
   };
-  console.log("extraData in ShamsiCalendar:", extraData);
+
+  const days = daysWithWorkout(state);
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -49,11 +55,7 @@ const ShamsiCalendar = () => {
             maxDate={new Date()}
             mapDays={({ date }) => {
               const formatted = date.format("YYYY-MM-DD");
-              if (
-                extraData &&
-                extraData.registeredDate &&
-                extraData.registeredDate.includes(formatted)
-              ) {
+              if (days.includes(formatted)) {
                 return {
                   style: {
                     backgroundColor: "#22c55e",

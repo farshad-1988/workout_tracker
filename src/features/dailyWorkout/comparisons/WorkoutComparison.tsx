@@ -11,7 +11,7 @@ const WorkoutComparison: React.FC<WorkoutComparisonProps> = ({
   comparisons,
 }) => {
   return (
-    <div className="grid gap-5 mb-10 md:grid-cols-1 lg:grid-cols-3">
+    <div className="grid gap-5 mb-10 md:grid-cols-1 lg:grid-cols-2">
       {comparisons.map((item, idx) => (
         <ComparisonCard key={idx} item={item} />
       ))}

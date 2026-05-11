@@ -23,7 +23,7 @@ const AverageProgressBar: React.FC<AverageProgressBarProps> = ({
       <div className="flex justify-between items-center text-xs text-gray-500 mb-1.5">
         <span>مقایسه با میانگین</span>
         <span className="font-medium">
-          {average.toLocaleString("fa-IR")} {unit}
+          {Number((+average).toFixed(0)).toLocaleString("fa-IR")} {unit}
         </span>
       </div>
       <div className="relative w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">

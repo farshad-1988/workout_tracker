@@ -29,7 +29,6 @@ export function makeChartData(caloriesData: CaloriesData) {
 }
 
 export function makeWeekLabel({ startOfWeek, endOfWeek }: WeekLabel) {
-  console.log("start", startOfWeek);
   return `${startOfWeek.format("YYYY/MM/DD")} – ${endOfWeek.format(
     "YYYY/MM/DD",
   )}`;

@@ -1,17 +1,16 @@
 // components/DailyWorkout/WorkoutHeader.tsx
-import React from "react";
 import { Activity } from "lucide-react";
 import checkDay from "@/utils/checkDay";
-import type { WorkoutHeaderProps } from "@/types/types";
 import AddWorkout from "../forms/addWorkout/addWorkout";
 import SetGoal from "../forms/setGoal/SetGoal";
+import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
+import { useModifiedPickedDate } from "../hooks/useModifiedPickedDate";
 
-const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({
-  pickedDate,
-  modifiedPickedDate,
-  exercises,
-  setExercises,
-}) => {
+const WorkoutHeader = () => {
+  const dateKey = useModifiedPickedDate();
+
+  const { exercises } = useDailyData(dateKey);
+
   return (
     <div className="relative backdrop-blur-sm rounded-3xl p-4 border border-white/50">
       <div className="flex items-center justify-between">
@@ -22,7 +21,7 @@ const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({
           {window.innerWidth > 500 && (
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                داشبورد ورزشی {checkDay(pickedDate ?? modifiedPickedDate)}
+                داشبورد ورزشی {checkDay(dateKey)}
               </h1>
               <p className="text-gray-600 mt-1">
                 پیگیری و مدیریت تمرین‌های روزانه
@@ -32,12 +31,12 @@ const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({
         </div>
         {exercises.length !== 0 ? (
           <>
-            <AddWorkout exercises={exercises} setExercises={setExercises} />
+            <AddWorkout />
             <SetGoal />
           </>
         ) : (
           <div className="text-xl md:hidden text-gray-900 italic">
-            داشبورد {checkDay(pickedDate ?? modifiedPickedDate)}
+            داشبورد {checkDay(dateKey)}
           </div>
         )}
       </div>
