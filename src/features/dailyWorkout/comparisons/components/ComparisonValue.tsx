@@ -1,13 +1,6 @@
 // features/workout-comparison/ComparisonValue.tsx
 import React from "react";
-import type { ColorScheme } from "@/types/types";
-
-interface ComparisonValueProps {
-  displayValue: number;
-  scheme: ColorScheme;
-  unit: string;
-  isPercentage?: boolean;
-}
+import type { ComparisonValueProps } from "@/types/types";
 
 const ComparisonValue: React.FC<ComparisonValueProps> = ({
   displayValue,

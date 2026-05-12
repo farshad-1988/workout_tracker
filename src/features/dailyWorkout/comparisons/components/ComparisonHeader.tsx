@@ -1,17 +1,7 @@
 // features/workout-comparison/ComparisonHeader.tsx
 import React from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
-import type { ColorScheme } from "@/types/types";
-
-interface ComparisonHeaderProps {
-  scheme: ColorScheme;
-  icon: string;
-  percentDiff: number;
-  isPositive: boolean;
-  isNeutral: boolean;
-  isPercentage?: boolean;
-  title: string;
-}
+import type { ComparisonHeaderProps } from "@/types/types";
 
 const ComparisonHeader: React.FC<ComparisonHeaderProps> = ({
   scheme,

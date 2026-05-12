@@ -1,14 +1,10 @@
 import React from "react";
-import type { ComparisonItem } from "@/types/types";
 import ComparisonHeader from "./ComparisonHeader";
 import { useComparisonCalculations } from "../hooks/useComparisonCalculations";
 import { COLOR_SCHEMES } from "../../constants/style";
 import ComparisonValue from "./ComparisonValue";
 import TargetProgressBar from "./TargetProgressBar";
-
-interface ComparisonCardProps {
-  item: ComparisonItem;
-}
+import type { ComparisonCardProps } from "@/types/types";
 
 const ComparisonCard: React.FC<ComparisonCardProps> = ({ item }) => {
   const { percentDiff, isPositive, isNeutral, targetProgress, displayValue } =

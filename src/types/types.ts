@@ -139,3 +139,33 @@ export interface WorkoutComparisonProps {
 export interface UseWorkoutFormProps {
   onSuccess: () => void;
 }
+
+export interface ComparisonCardProps {
+  item: ComparisonItem;
+}
+export interface ComparisonHeaderProps {
+  scheme: ColorScheme;
+  icon: string;
+  percentDiff: number;
+  isPositive: boolean;
+  isNeutral: boolean;
+  isPercentage?: boolean;
+  title: string;
+}
+export interface ComparisonValueProps {
+  displayValue: number;
+  scheme: ColorScheme;
+  unit: string;
+  isPercentage?: boolean;
+}
+export interface TargetProgressBarProps {
+  targetProgress: number;
+  target: number;
+  current: number;
+  unit: string;
+  scheme: ColorScheme;
+}
+
+export interface AddExerciseTypeProps {
+  setShowAddType: (show: boolean) => void;
+}

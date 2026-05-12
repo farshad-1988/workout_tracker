@@ -1,14 +1,4 @@
-// features/workout-comparison/TargetProgressBar.tsx
-import React from "react";
-import type { ColorScheme } from "@/types/types";
-
-interface TargetProgressBarProps {
-  targetProgress: number;
-  target: number;
-  current: number;
-  unit: string;
-  scheme: ColorScheme;
-}
+import type { TargetProgressBarProps } from "@/types/types";
 
 const TargetProgressBar: React.FC<TargetProgressBarProps> = ({
   targetProgress,
