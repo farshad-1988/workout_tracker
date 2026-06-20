@@ -84,6 +84,5 @@ export function getGoals(state: State, dateKey: string) {
   return state.dailyGoalByDate.get(dateKey) || { colories: 200, duration: 60 };
 }
 export function getExercisesInADay(state: State, dateKey: string) {
-  console.log(state.exercisesByDate.get(dateKey));
   return state.exercisesByDate.get(dateKey) || [];
 }

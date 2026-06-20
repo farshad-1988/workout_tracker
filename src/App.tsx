@@ -1,52 +1,52 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import MainLayout from "./layouts/MainLayout";
 import DailyWorkout from "./features/dailyWorkout/DailyWorkout";
+import { useLanguage } from "./shared/contexts/languageContext/hook/useLanguage.ts";
 
-// Lazy load heavy components
-const WeeklyChart = lazy(
-  () => import("./features/weeklyChart/WeeklyChart.tsx"),
-);
-const DailyWorkoutPage = lazy(
-  () => import("./features/dailyWorkout/DailyWorkout.tsx"),
+const WorkoutCharts = lazy(
+  () => import("./features/workoutChart/WorkoutCharts.tsx"),
 );
 
 function App() {
+  const { locale } = useLanguage();
+
+  useEffect(() => {
+    if (locale === "en") {
+      document.body.style.direction = "ltr";
+    } else if (locale === "fa") {
+      document.body.style.direction = "rtl";
+    }
+  }, [locale]);
+
+  const chartFallback = (
+    <div className="flex h-64 items-center justify-center">
+      <div className="border-primary size-8 animate-spin rounded-full border-2 border-t-transparent" />
+    </div>
+  );
+
   return (
     <Router>
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<DailyWorkout />} />
+          <Route path="/dailyworkout/:pickedDate" element={<DailyWorkout />} />
           <Route
-            path="/dailyworkout/:pickedDate"
+            path="/workoutchart"
             element={
-              <Suspense
-                fallback={
-                  <div className="flex items-center justify-center h-64">
-                    <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-                  </div>
-                }
-              >
-                <DailyWorkoutPage />
+              <Suspense fallback={chartFallback}>
+                <WorkoutCharts />
               </Suspense>
             }
           />
           <Route
             path="/workoutchart/week"
             element={
-              <Suspense
-                fallback={
-                  <div className="flex items-center justify-center h-64">
-                    <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-                  </div>
-                }
-              >
-                <WeeklyChart />
+              <Suspense fallback={chartFallback}>
+                <WorkoutCharts />
               </Suspense>
             }
           />
-          {/* <Route path="/workoutchart/month" element={<WorkoutChart />} />
-          <Route path="/workoutchart/year" element={<WorkoutChart />} /> */}
         </Route>
       </Routes>
     </Router>

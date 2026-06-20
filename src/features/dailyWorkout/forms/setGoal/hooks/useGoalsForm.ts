@@ -4,15 +4,69 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import type { UseGoalsFormProps } from "@/types/types";
-import { goalsSchema, type GoalsFormData } from "../schemas/goalSchema";
+import { type GoalsFormData } from "../schemas/goalSchema";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { getGoals } from "@/shared/contexts/exerciseContext/selectors/exerciseStates";
 import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
+import useGoalFormSchema from "./useGoalFormSchema";
+import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage";
+import { getComparisonsText } from "@/constants";
 
+// export const useGoalsForm = ({ isOpen, onSuccess }: UseGoalsFormProps) => {
+//   const { dispatch, state } = useExercise();
+//   const goalsSchema = useGoalFormSchema();
+//   const dateKey = useModifiedPickedDate();
+//   const form = useForm<GoalsFormData>({
+//     resolver: zodResolver(goalsSchema),
+//     mode: "onChange",
+//     defaultValues: {
+//       dailyCalorieGoal: 0,
+//       dailyDurationGoal: 0,
+//     },
+//   });
+
+//   // وقتی دیالوگ باز میشه، فرم رو با مقادیر فعلی پر کن
+//   useEffect(() => {
+//     if (!isOpen) return;
+//     const goals = getGoals(state, dateKey);
+//     console.log(goals);
+//     form.reset({
+//       dailyCalorieGoal: goals.colories ?? 0,
+//       dailyDurationGoal: goals.duration ?? 0,
+//     });
+//   }, [dateKey, form, isOpen, state]);
+
+//   const submitGoals = async (data: GoalsFormData) => {
+//     try {
+//       // dispatch به reducer
+//       dispatch({
+//         type: "SET_DAILY_GOAL",
+//         dateKey,
+//         duration: data.dailyDurationGoal,
+//         colories: data.dailyCalorieGoal, // توجه: reducer شما نوشته colories
+//       });
+
+//       toast.success("اهداف روزانه با موفقیت ثبت شد!", {
+//         description: `هدف کالری: ${data.dailyCalorieGoal} | هدف زمان: ${data.dailyDurationGoal} دقیقه`,
+//       });
+
+//       onSuccess();
+//     } catch (error) {
+//       toast.error("خطا در ثبت اهداف", {
+//         description: "لطفاً دوباره تلاش کنید",
+//       });
+//       console.error("Error submitting goals:", error);
+//     }
+//   };
+
+//   return { form, submitGoals };
+// };
 export const useGoalsForm = ({ isOpen, onSuccess }: UseGoalsFormProps) => {
   const { dispatch, state } = useExercise();
-
+  const goalsSchema = useGoalFormSchema();
   const dateKey = useModifiedPickedDate();
+  const { locale } = useLanguage();
+  const t = getComparisonsText(locale);
   const form = useForm<GoalsFormData>({
     resolver: zodResolver(goalsSchema),
     mode: "onChange",
@@ -22,11 +76,11 @@ export const useGoalsForm = ({ isOpen, onSuccess }: UseGoalsFormProps) => {
     },
   });
 
-  // وقتی دیالوگ باز میشه، فرم رو با مقادیر فعلی پر کن
   useEffect(() => {
     if (!isOpen) return;
+
     const goals = getGoals(state, dateKey);
-    console.log(goals);
+
     form.reset({
       dailyCalorieGoal: goals.colories ?? 0,
       dailyDurationGoal: goals.duration ?? 0,
@@ -35,23 +89,25 @@ export const useGoalsForm = ({ isOpen, onSuccess }: UseGoalsFormProps) => {
 
   const submitGoals = async (data: GoalsFormData) => {
     try {
-      // dispatch به reducer
       dispatch({
         type: "SET_DAILY_GOAL",
         dateKey,
         duration: data.dailyDurationGoal,
-        colories: data.dailyCalorieGoal, // توجه: reducer شما نوشته colories
+        colories: data.dailyCalorieGoal,
       });
 
-      toast.success("اهداف روزانه با موفقیت ثبت شد!", {
-        description: `هدف کالری: ${data.dailyCalorieGoal} | هدف زمان: ${data.dailyDurationGoal} دقیقه`,
+      toast.success(t.goalsSavedSuccess, {
+        description: `${t.calorieGoalLabel}: ${
+          data.dailyCalorieGoal
+        } | ${t.timeGoalLabel}: ${data.dailyDurationGoal} ${t.minute}`,
       });
 
       onSuccess();
     } catch (error) {
-      toast.error("خطا در ثبت اهداف", {
-        description: "لطفاً دوباره تلاش کنید",
+      toast.error(t.goalsSaveError, {
+        description: t.tryAgain,
       });
+
       console.error("Error submitting goals:", error);
     }
   };

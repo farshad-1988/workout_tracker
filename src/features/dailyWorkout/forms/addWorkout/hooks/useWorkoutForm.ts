@@ -1,14 +1,21 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import checkDay from "@/utils/checkDay";
-import { workoutSchema, type WorkoutFormData } from "../schemas/workoutSchemas";
+import { getBioText, getUiCopy } from "@/constants";
+import { getDayLabel } from "@/utils/getDayLabel";
 import { useDailyData } from "@/shared/contexts/exerciseContext/hooks/useDailyData";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
 import type { UseWorkoutFormProps } from "@/types/types";
+import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage";
+import useWorkoutSchema from "./useWorkoutSchema";
+import type { WorkoutFormData } from "../schemas/workoutSchemas";
 
 export const useWorkoutForm = ({ onSuccess }: UseWorkoutFormProps) => {
+  const { locale } = useLanguage();
+  const workoutSchema = useWorkoutSchema();
+  const ui = getUiCopy(locale);
+  const bio = getBioText(locale);
   const form = useForm<WorkoutFormData>({
     resolver: zodResolver(workoutSchema),
     mode: "onChange",
@@ -50,15 +57,17 @@ export const useWorkoutForm = ({ onSuccess }: UseWorkoutFormProps) => {
           id: crypto.randomUUID().replace(/-/g, ""),
         },
       });
-      toast.success("تمرین با موفقیت ثبت شد!", {
-        description: " در تمرینات " + checkDay(dateKey),
+      toast.success(ui.toastWorkoutSaved, {
+        description:
+          ui.toastWorkoutSavedDescriptionPrefix +
+          getDayLabel(dateKey, locale, bio),
       });
 
       form.reset();
       onSuccess();
     } catch (error) {
-      toast.error("خطا در ثبت تمرین", {
-        description: "لطفاً دوباره تلاش کنید",
+      toast.error(ui.toastWorkoutError, {
+        description: ui.toastWorkoutErrorDescription,
       });
       console.error("Error submitting workout:", error);
     }
