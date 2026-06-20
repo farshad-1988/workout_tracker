@@ -1,4 +1,3 @@
-// features/workout-comparison/useComparisonCalculations.ts
 import { useMemo } from "react";
 import type { ComparisonItem } from "@/types/types";
 

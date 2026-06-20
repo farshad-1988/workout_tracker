@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ExerciseContext } from "../utils/contextCreator";
+import { ExerciseContext } from "../context/contextCreator";
 
 export function useExercise() {
   const ctx = useContext(ExerciseContext);

@@ -1,143 +1,235 @@
+// import ShamsiCalendar from "@/utils/ShamsiCalendar";
+// import { Button } from "@/components/ui/button";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
+// import {
+//   Sheet,
+//   SheetContent,
+//   SheetHeader,
+//   SheetTitle,
+//   SheetTrigger,
+// } from "@/components/ui/sheet";
+// import { getNavText } from "@/constants";
+// import type { AppLocale } from "@/constants/types";
+// import { Menu, Home, BarChart3, Dumbbell, Languages } from "lucide-react";
+// import { Link } from "react-router-dom";
+// import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage";
+// import { ThemePicker } from "./ThemePicker";
+
+// const Navbar = () => {
+//   const { locale, setLocale } = useLanguage();
+//   const nav = getNavText(locale);
+//   // const themes = ["blue", "green", "purple", "orange", "red", "pink"]
+
+//   return (
+//     <>
+//       <nav className="border-border/60 bg-primary fixed top-0 z-10 h-16 w-full border-b shadow-md backdrop-blur-md">
+//         <div className="mx-auto flex h-full max-w-6xl items-center px-4">
+//           <div className="flex h-full w-full items-center justify-between gap-3">
+//             <div className="flex items-center gap-3">
+//               <div className="from-primary to-chart-3 flex size-8 items-center justify-center rounded-lg bg-gradient-to-br">
+//                 <span className="text-primary-foreground">
+//                   <Dumbbell className="size-4" />
+//                 </span>
+//               </div>
+//               <span className="text-foreground hidden text-lg font-bold sm:block">
+//                 {nav.brandTitle}
+//               </span>
+//             </div>
+
+//             <div className="hidden items-center gap-2 md:flex">
+//               <Button variant="ghost" className="gap-2" asChild>
+//                 <Link to="/">
+//                   <Home className="size-4" />
+//                   <span>{nav.home}</span>
+//                 </Link>
+//               </Button>
+
+//               <Button variant="ghost" className="gap-2" asChild>
+//                 <Link to="/workoutchart">
+//                   <BarChart3 className="size-4" />
+//                   <span>{nav.chart}</span>
+//                 </Link>
+//               </Button>
+
+//               <div className="bg-border mx-2 h-6 w-px" />
+
+//               <Select
+//                 value={locale}
+//                 onValueChange={(v) => setLocale(v as AppLocale)}
+//               >
+//                 <SelectTrigger
+//                   size="sm"
+//                   className="border-border w-[140px] gap-2"
+//                   aria-label="Language"
+//                 >
+//                   <Languages className="size-4 shrink-0" />
+//                   <SelectValue />
+//                 </SelectTrigger>
+//                 <SelectContent>
+//                   <SelectItem value="fa">فارسی</SelectItem>
+//                   <SelectItem value="en">English</SelectItem>
+//                 </SelectContent>
+//                 <ThemePicker />
+//               </Select>
+
+//               <div className="relative">
+//                 <ShamsiCalendar />
+//               </div>
+//             </div>
+
+//             <div className="flex items-center gap-2 md:hidden">
+//               <Select
+//                 value={locale}
+//                 onValueChange={(v) => setLocale(v as AppLocale)}
+//               >
+//                 <SelectTrigger
+//                   size="sm"
+//                   className="border-border w-[110px]"
+//                   aria-label="Language"
+//                 >
+//                   <SelectValue />
+//                 </SelectTrigger>
+//                 <SelectContent>
+//                   <SelectItem value="fa">فا</SelectItem>
+//                   <SelectItem value="en">EN</SelectItem>
+//                 </SelectContent>
+//               </Select>
+
+//               <Sheet>
+//                 <SheetTrigger asChild>
+//                   <Button
+//                     variant="ghost"
+//                     size="icon"
+//                     className="shrink-0"
+//                     aria-label={nav.mobileMenu}
+//                   >
+//                     <Menu className="size-6" />
+//                   </Button>
+//                 </SheetTrigger>
+//                 <SheetContent side="right" className="gap-6">
+//                   <SheetHeader>
+//                     <SheetTitle>{nav.brandTitle}</SheetTitle>
+//                   </SheetHeader>
+//                   <div className="flex flex-col gap-3 px-2">
+//                     <Button
+//                       variant="ghost"
+//                       className="justify-start gap-2"
+//                       asChild
+//                     >
+//                       <Link to="/">
+//                         <Home className="size-5" />
+//                         {nav.home}
+//                       </Link>
+//                     </Button>
+//                     <Button
+//                       variant="ghost"
+//                       className="justify-start gap-2"
+//                       asChild
+//                     >
+//                       <Link to="/workoutchart">
+//                         <BarChart3 className="size-5" />
+//                         {nav.chart}
+//                       </Link>
+//                     </Button>
+//                   </div>
+//                   <div className="text-muted-foreground flex items-center justify-between px-2 text-sm font-medium">
+//                     <span>{nav.calendar}</span>
+//                     <ShamsiCalendar />
+//                   </div>
+//                 </SheetContent>
+//               </Sheet>
+//             </div>
+//           </div>
+//         </div>
+//       </nav>
+
+//       <div className="h-16" />
+//     </>
+//   );
+// };
+
 import ShamsiCalendar from "@/utils/ShamsiCalendar";
-import { Button } from "@/components/ui/button";
+
+import { Separator } from "@/components/ui/separator";
+import { getNavText } from "@/constants";
+
+import { Home, BarChart3, Dumbbell } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Menu, X, Home, BarChart3, Dumbbell } from "lucide-react";
-import { useState } from "react";
+import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage";
+import { ThemePicker } from "./ThemePicker";
+import { LanguagePicker } from "./LanguagePicker";
+import PhoneControls from "./PhoneControls";
+
+const navLinkClass =
+  "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-primary-foreground transition-colors hover:bg-black/20 active:bg-black/30";
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { locale } = useLanguage();
+  const nav = getNavText(locale);
+  // const isRtl = locale === "fa";
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // useEffect(() => {
+  //   document.documentElement.dir = isRtl ? "rtl" : "ltr";
+  //   document.documentElement.lang = locale;
+  // }, [locale, isRtl]);
 
   return (
     <>
-      {/* Main Navbar */}
-      <nav className="w-full h-16 bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/20 fixed top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 h-full">
-          <div className="flex items-center justify-between h-full">
-            {/* Logo/Brand Section - Right side for RTL */}
+      <nav className="bg-primary border-b border-black/20 fixed top-0 z-10 h-16 w-full shadow-sm">
+        <div className="mx-auto flex h-full max-w-6xl items-center px-4">
+          <div
+            className="flex h-full w-full items-center justify-between gap-3"
+            // dir={isRtl ? "rtl" : "ltr"}
+          >
+            {/* Brand */}
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">
-                  <Dumbbell />
-                </span>
+              <div className="flex size-8 items-center justify-center rounded-lg bg-primary-foreground/15 border border-primary-foreground/25">
+                <Dumbbell className="size-4 text-primary-foreground" />
               </div>
-              <span className="font-bold text-gray-800 text-lg sm:block">
-                رهگیر ورزشی
+              <span className="hidden text-lg font-bold tracking-tight text-primary-foreground sm:block">
+                {nav.brandTitle}
               </span>
             </div>
 
-            {/* Desktop Navigation - Left side for RTL */}
-            <div className="hidden md:flex items-center gap-2">
-              <Button
-                variant="ghost"
-                className="relative overflow-hidden group hover:bg-blue-50 transition-all duration-300"
-                asChild
-              >
-                <Link to="/" className="flex items-center gap-2 px-4 py-2">
-                  <Home size={18} />
-                  <span>خانه</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Link>
-              </Button>
+            {/* Desktop Nav */}
+            <div className="hidden items-center gap-1 md:flex">
+              <Link to="/" className={navLinkClass}>
+                <Home className="size-4" />
+                <span>{nav.home}</span>
+              </Link>
 
-              <Button
-                variant="ghost"
-                className="relative overflow-hidden group hover:bg-green-50 transition-all duration-300"
-                asChild
-              >
-                <Link
-                  to="/workoutchart/week"
-                  className="flex items-center gap-2 px-4 py-2"
-                >
-                  <BarChart3 size={18} />
-                  <span>نمودار کالری</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Link>
-              </Button>
+              <Link to="/workoutchart" className={navLinkClass}>
+                <BarChart3 className="size-4" />
+                <span>{nav.chart}</span>
+              </Link>
 
-              <div className="w-px h-6 bg-gray-300 mx-2" />
+              <Separator
+                orientation="vertical"
+                className="mx-2 h-5 bg-primary-foreground/25"
+              />
+
+              <LanguagePicker />
+
+              <ThemePicker />
 
               <div className="relative">
                 <ShamsiCalendar />
               </div>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={toggleMenu}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-              aria-label="منوی موبایل"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* Mobile Controls */}
+            <PhoneControls />
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      {isMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={toggleMenu}
-        />
-      )}
-
-      {/* Mobile Menu */}
-      <div
-        className={`
-        fixed top-16 right-0 w-72 h-screen bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden
-        ${isMenuOpen ? "translate-x-0" : "translate-x-full"}
-      `}
-      >
-        <div className="p-6 space-y-4">
-          {/* Mobile Navigation Links */}
-          <div className="space-y-3">
-            <Button
-              variant="ghost"
-              className="w-full justify-start text-right hover:bg-blue-50 transition-all duration-300 h-12"
-              asChild
-              onClick={toggleMenu}
-            >
-              <Link to="/" className="flex items-center gap-3 px-4">
-                <span>خانه</span>
-                <Home size={20} />
-              </Link>
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="w-full justify-start text-right hover:bg-green-50 transition-all duration-300 h-12"
-              asChild
-              onClick={toggleMenu}
-            >
-              <Link
-                to="/workoutchart/week"
-                className="flex items-center gap-3 px-4"
-              >
-                <span>نمودار کالری</span>
-                <BarChart3 size={20} />
-              </Link>
-            </Button>
-          </div>
-
-          {/* Divider */}
-          <div className="w-full h-px bg-gradient-to-l from-gray-300 to-transparent my-6" />
-
-          {/* Mobile Calendar */}
-          <div className="flex items-center justify-between">
-            <span className="text-gray-700 font-medium">تقویم</span>
-            <ShamsiCalendar />
-          </div>
-        </div>
-
-        {/* Bottom Decoration */}
-        <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-blue-500/10 to-transparent rounded-tl-full" />
-      </div>
-
-      {/* Spacer for fixed navbar */}
+      {/* Spacer */}
       <div className="h-16" />
     </>
   );

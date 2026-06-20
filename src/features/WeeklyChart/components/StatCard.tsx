@@ -1,20 +1,77 @@
-// src/components/WeeklyChart/StatCard.tsx
-import type { StatCardProps } from "@/types/types";
+// import type { LucideIcon } from "lucide-react";
 
-export function StatCard({ icon: Icon, label, value, color }: StatCardProps) {
+// import {
+//   Card,
+//   CardContent,
+// } from "@/components/ui/card";
+// import { cn } from "@/lib/utils";
+
+// export type StatCardProps = {
+//   icon: LucideIcon;
+//   label: string;
+//   value: string | number;
+//   iconClassName?: string;
+// };
+
+// export function StatCard({ icon: Icon, label, value, iconClassName }: StatCardProps) {
+//   return (
+//     <Card className="border-border/60 shadow-sm transition-shadow hover:shadow-md">
+//       <CardContent className="flex items-center justify-between gap-3 pt-6">
+//         <div
+//           className={cn(
+//             "flex size-10 shrink-0 items-center justify-center rounded-xl sm:size-12",
+//             iconClassName ?? "bg-primary text-primary-foreground",
+//           )}
+//         >
+//           <Icon className="size-5 sm:size-6" />
+//         </div>
+//         <div className="min-w-0 flex-1 text-end sm:text-start">
+//           <p className="text-muted-foreground truncate text-sm font-medium">
+//             {label}
+//           </p>
+//           <p className="text-foreground mt-1 text-xl font-bold sm:text-2xl">
+//             {value}
+//           </p>
+//         </div>
+//       </CardContent>
+//     </Card>
+//   );
+// }
+import type { LucideIcon } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+
+export type StatCardProps = {
+  icon: LucideIcon;
+  label: string;
+  value: string | number;
+  iconClassName?: string;
+};
+
+export function StatCard({
+  icon: Icon,
+  label,
+  value,
+  iconClassName,
+}: StatCardProps) {
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]">
-      <div className="w-full flex text-center justify-between items-center space-x-3">
-        <div className={`p-2 sm:p-3 rounded-xl bg-gradient-to-br ${color}`}>
-          <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+    <Card className="border-border bg-card shadow-sm transition-shadow hover:shadow-md">
+      <CardContent className="flex items-center justify-between gap-3 pt-6">
+        <div
+          className={cn(
+            "flex size-10 shrink-0 items-center justify-center rounded-xl sm:size-12",
+            iconClassName ?? "bg-primary text-primary-foreground",
+          )}
+        >
+          <Icon className="size-5 sm:size-6" />
         </div>
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-gray-600 truncate">{label}</p>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1">
+        <div className="min-w-0 flex-1 text-end sm:text-start">
+          <p className="text-secondary truncate text-sm font-medium">{label}</p>
+          <p className="text-primary-foreground mt-1 text-xl font-bold sm:text-2xl">
             {value}
           </p>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

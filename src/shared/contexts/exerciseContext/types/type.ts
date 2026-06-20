@@ -12,7 +12,8 @@ export type Action =
   | {
       type: "SET_DAILY_GOAL";
       dateKey: DateKey;
-      goal: { duration: number; colories: number };
+      duration: number;
+      colories: number;
     }
   | { type: "ADD_EXERCISE"; dateKey: DateKey; exercise: Exercise }
   | { type: "REMOVE_EXERCISE"; dateKey: DateKey; id: string }
@@ -21,7 +22,9 @@ export type Action =
       dateKey: DateKey;
       id: string;
       patch: Partial<Exercise>;
-    };
+    }
+  | { type: "ADD_EXERCISE_TYPE"; payload: string }
+  | { type: "DELETE_EXERCISE_TYPE"; payload: string };
 export interface ExerciseContextType {
   state: State;
   dispatch: React.Dispatch<Action>;

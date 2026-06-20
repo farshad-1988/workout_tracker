@@ -1,6 +1,7 @@
 import { DateObject } from "react-multi-date-picker";
 import persian_fa from "react-date-object/locales/persian_fa";
 import persian from "react-date-object/calendars/persian";
+import type { State } from "../types/type";
 
 export function calculateDaysFrom(selectedDate: string): number {
   const past = new DateObject({
@@ -24,7 +25,7 @@ export function calculateDaysFrom(selectedDate: string): number {
   return diffDays + 1;
 }
 
-export const calDayValue = (dateStr) => {
+export const calDayValue = (dateStr: string) => {
   return new DateObject({
     date: dateStr,
     format: "YYYY-MM-DD",
@@ -33,20 +34,20 @@ export const calDayValue = (dateStr) => {
   }).valueOf();
 };
 
-export const daysWithWorkout = (state) => {
+export const daysWithWorkout = (state: State) => {
   return [...state.exercisesByDate.keys()].sort(
     (a, b) => calDayValue(a) - calDayValue(b),
   );
 };
 
-export const firstLastDay = (state) => {
+export const firstLastDay = (state: State) => {
   const sortedDates = daysWithWorkout(state);
   const firstDay = sortedDates[0];
   const lastDay = sortedDates[sortedDates.length - 1];
   return { firstDay, lastDay };
 };
 
-export function getTotalCalories(state): number {
+export function getTotalCalories(state: State): number {
   let total = 0;
   for (const [, exercises] of state.exercisesByDate) {
     for (const ex of exercises) total += ex.caloriesBurned;
@@ -54,7 +55,7 @@ export function getTotalCalories(state): number {
   return total;
 }
 
-function getTotaltime(state): number {
+function getTotaltime(state: State): number {
   let total = 0;
   for (const [, exercises] of state.exercisesByDate) {
     for (const ex of exercises) total += ex.duration;
@@ -62,27 +63,26 @@ function getTotaltime(state): number {
   return total;
 }
 
-export function getActiveDailyAverageDuration(state): number {
+export function getActiveDailyAverageDuration(state: State): number {
   const days = state.exercisesByDate.size || 1;
   return getTotaltime(state) / days;
 }
 
-export function getActiveDailyAverageColories(state): number {
+export function getActiveDailyAverageColories(state: State): number {
   const days = state.exercisesByDate.size || 1;
   return getTotalCalories(state) / days;
 }
 
-export function getActiveDaysAverage(state): number {
+export function getActiveDaysAverage(state: State) {
   const activeDays = state.exercisesByDate.size || 1;
   const { firstDay } = firstLastDay(state);
   const daysPassed = calculateDaysFrom(firstDay);
   return (activeDays / daysPassed).toFixed(2);
 }
 
-export function getGoals(state, dateKey) {
+export function getGoals(state: State, dateKey: string) {
   return state.dailyGoalByDate.get(dateKey) || { colories: 200, duration: 60 };
 }
-export function getExercisesInADay(state, dateKey) {
-  console.log(state.exercisesByDate.get(dateKey));
+export function getExercisesInADay(state: State, dateKey: string) {
   return state.exercisesByDate.get(dateKey) || [];
 }

@@ -1,14 +1,30 @@
-import z from "zod";
+import type {
+  goalsValidationMessagesEn,
+  goalsValidationMessagesFa,
+} from "@/constants/formSchemas";
+import { z } from "zod";
 
-export const goalsSchema = z.object({
-  dailyCalorieGoal: z
-    .number({ message: "هدف کالری باید عدد باشد" })
-    .positive("هدف کالری باید بیشتر از صفر باشد")
-    .max(10000, "هدف کالری نباید بیشتر از ۱۰۰۰۰ باشد"),
-  dailyDurationGoal: z
-    .number({ message: "هدف زمان باید عدد باشد" })
-    .positive("هدف زمان باید بیشتر از صفر باشد")
-    .max(1440, "هدف زمان نباید بیشتر از ۱۴۴۰ دقیقه (۲۴ ساعت) باشد"),
-});
+type GoalsMessages =
+  | typeof goalsValidationMessagesFa
+  | typeof goalsValidationMessagesEn;
 
-export type GoalsFormData = z.infer<typeof goalsSchema>;
+export const goalsSchema = (msg: GoalsMessages) =>
+  z.object({
+    dailyCalorieGoal: z
+      .number({
+        message: msg.dailyCalorieGoal.invalidType,
+      })
+      .positive(msg.dailyCalorieGoal.positive)
+      .max(10000, msg.dailyCalorieGoal.max),
+
+    dailyDurationGoal: z
+      .number({
+        message: msg.dailyDurationGoal.invalidType,
+      })
+      .positive(msg.dailyDurationGoal.positive)
+      .max(1440, msg.dailyDurationGoal.max),
+  });
+
+export type GoalsSchema = ReturnType<typeof goalsSchema>;
+
+export type GoalsFormData = z.infer<GoalsSchema>;

@@ -1,16 +1,137 @@
-// components/WorkoutForm/GoalsDialog.tsx
+// import React from "react";
+// import {
+//   DialogContent,
+//   DialogDescription,
+//   DialogTitle,
+// } from "@/components/ui/dialog";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import { Button } from "@/components/ui/button";
+// import { AlertCircle, Settings } from "lucide-react";
+
+// import { getGoalFormCopy } from "@/constants";
+// import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
+// import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
+// import type { GoalsDialogProps } from "../schemas/types";
+// import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage";
+
+// export const GoalsDialog: React.FC<GoalsDialogProps> = ({ form, onSubmit }) => {
+//   const { locale } = useLanguage();
+//   const copy = getGoalFormCopy(locale);
+//   const {
+//     register,
+//     handleSubmit,
+//     formState: { errors, isSubmitting },
+//   } = form;
+//   const dateKey = useModifiedPickedDate();
+//   const { state } = useExercise();
+//   const goal = state.dailyGoalByDate.get(dateKey);
+
+//   return (
+//     <DialogContent className="sm:max-w-[500px]">
+//       <div className="flex justify-center px-2 py-6">
+//         <div className="bg-card w-full max-w-md rounded-2xl border p-6 shadow-sm md:p-8">
+//           <DialogTitle className="mb-2 text-center">
+//             <div className="from-primary to-destructive mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-gradient-to-r">
+//               <Settings className="text-primary-foreground size-8" />
+//             </div>
+//             <div className="text-foreground text-2xl font-bold">
+//               {copy.title}
+//             </div>
+//           </DialogTitle>
+//           <DialogDescription className="text-muted-foreground mb-6 text-center">
+//             {copy.description}
+//           </DialogDescription>
+
+//           <form
+//             className="flex flex-col gap-4"
+//             onSubmit={handleSubmit(onSubmit)}
+//           >
+//             <div className="space-y-2">
+//               <Label htmlFor="dailyCalorieGoal">
+//                 {copy.calorieGoal} <span className="text-destructive">*</span>
+//               </Label>
+//               <Input
+//                 id="dailyCalorieGoal"
+//                 type="number"
+//                 min={0}
+//                 step={1}
+//                 aria-invalid={!!errors.dailyCalorieGoal}
+//                 {...register("dailyCalorieGoal", { valueAsNumber: true })}
+//               />
+//               {errors.dailyCalorieGoal && (
+//                 <div className="text-destructive flex items-center gap-1 text-sm">
+//                   <AlertCircle className="size-4" />
+//                   <span>{errors.dailyCalorieGoal.message}</span>
+//                 </div>
+//               )}
+//             </div>
+
+//             <div className="space-y-2">
+//               <Label htmlFor="dailyDurationGoal">
+//                 {copy.durationGoal} <span className="text-destructive">*</span>
+//               </Label>
+//               <Input
+//                 id="dailyDurationGoal"
+//                 type="number"
+//                 min={0}
+//                 step={1}
+//                 aria-invalid={!!errors.dailyDurationGoal}
+//                 {...register("dailyDurationGoal", { valueAsNumber: true })}
+//               />
+//               {errors.dailyDurationGoal && (
+//                 <div className="text-destructive flex items-center gap-1 text-sm">
+//                   <AlertCircle className="size-4" />
+//                   <span>{errors.dailyDurationGoal.message}</span>
+//                 </div>
+//               )}
+//             </div>
+
+//             {(goal?.colories || goal?.duration) && (
+//               <div className="bg-muted/50 border-border rounded-lg border p-4">
+//                 <div className="text-foreground mb-2 text-sm font-medium">
+//                   {copy.currentGoals}
+//                 </div>
+//                 <div className="text-muted-foreground space-y-1 text-sm">
+//                   <div>
+//                     {copy.caloriesLine}: {goal?.colories ?? 0}
+//                   </div>
+//                   <div>
+//                     {copy.durationLine}: {goal?.duration ?? 0}
+//                   </div>
+//                 </div>
+//               </div>
+//             )}
+
+//             <Button type="submit" className="w-full" disabled={isSubmitting}>
+//               {isSubmitting ? copy.saving : copy.save}
+//             </Button>
+//           </form>
+//         </div>
+//       </div>
+//     </DialogContent>
+//   );
+// };
 import React from "react";
 import {
   DialogContent,
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { AlertCircle, Settings } from "lucide-react";
-import type { GoalsDialogProps } from "@/features/WorkoutForm/types/types";
+
+import { getGoalFormCopy } from "@/constants";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { useModifiedPickedDate } from "@/features/dailyWorkout/hooks/useModifiedPickedDate";
+import type { GoalsDialogProps } from "../schemas/types";
+import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage";
 
 export const GoalsDialog: React.FC<GoalsDialogProps> = ({ form, onSubmit }) => {
+  const { locale } = useLanguage();
+  const copy = getGoalFormCopy(locale);
   const {
     register,
     handleSubmit,
@@ -21,138 +142,103 @@ export const GoalsDialog: React.FC<GoalsDialogProps> = ({ form, onSubmit }) => {
   const goal = state.dailyGoalByDate.get(dateKey);
 
   return (
-    <DialogContent className="sm:max-w-[500px]">
-      <div className="bg-gradient-to-br py-8 px-2 flex justify-center items-center">
-        <div className="w-full max-w-md mx-auto">
-          <div className="bg-white rounded-2xl pb-8 md:p-8">
-            <DialogTitle className="text-center mb-2">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <Settings className="w-8 h-8 text-white" />
-              </div>
-              <div className="text-2xl font-bold text-gray-900">
-                تنظیم اهداف روزانه
-              </div>
-            </DialogTitle>
-            <DialogDescription className="text-center mb-6 text-gray-600">
-              اهداف کالری و زمان ورزش روزانه خود را تعیین کنید
-            </DialogDescription>
+    <DialogContent className="sm:max-w-[500px] bg-background border-border">
+      <div className="flex justify-center px-2 py-6">
+        <div className="bg-card w-full max-w-md rounded-2xl border border-border p-6 shadow-sm md:p-8">
+          <DialogTitle className="mb-2 text-center">
+            <div className="from-primary to-danger mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-gradient-to-br">
+              <Settings className="text-primary-foreground size-8" />
+            </div>
+            <div className="text-primary-foreground text-2xl font-bold tracking-tight">
+              {copy.title}
+            </div>
+          </DialogTitle>
+          <DialogDescription className="text-secondary mb-6 text-center text-sm">
+            {copy.description}
+          </DialogDescription>
 
-            <form
-              className="flex flex-col gap-4"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              {/* Daily Calorie Goal */}
-              <div>
-                <label
-                  htmlFor="dailyCalorieGoal"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  هدف کالری روزانه <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  id="dailyCalorieGoal"
-                  {...register("dailyCalorieGoal", { valueAsNumber: true })}
-                  className={`w-full px-4 py-3 border ${
-                    errors.dailyCalorieGoal
-                      ? "border-red-500 focus:ring-red-500"
-                      : "border-gray-300 focus:ring-blue-500"
-                  } rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200`}
-                  placeholder="۵۰۰"
-                  min="0"
-                  step="1"
-                />
-                {errors.dailyCalorieGoal && (
-                  <div className="flex items-center gap-1 mt-2 text-sm text-red-600">
-                    <AlertCircle className="w-4 h-4" />
-                    <span>{errors.dailyCalorieGoal.message}</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Daily Duration Goal */}
-              <div>
-                <label
-                  htmlFor="dailyDurationGoal"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  هدف زمان ورزش روزانه (دقیقه){" "}
-                  <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  id="dailyDurationGoal"
-                  {...register("dailyDurationGoal", { valueAsNumber: true })}
-                  className={`w-full px-4 py-3 border ${
-                    errors.dailyDurationGoal
-                      ? "border-red-500 focus:ring-red-500"
-                      : "border-gray-300 focus:ring-blue-500"
-                  } rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200`}
-                  placeholder="۶۰"
-                  min="0"
-                  step="1"
-                />
-                {errors.dailyDurationGoal && (
-                  <div className="flex items-center gap-1 mt-2 text-sm text-red-600">
-                    <AlertCircle className="w-4 h-4" />
-                    <span>{errors.dailyDurationGoal.message}</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Current Goals Display */}
-              {(goal?.colories || goal?.duration) && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <div className="text-sm font-medium text-blue-900 mb-2">
-                    اهداف فعلی:
-                  </div>
-                  <div className="text-sm text-blue-700 space-y-1">
-                    <div>کالری: {goal?.colories || 0} کالری</div>
-                    <div>زمان: {goal?.duration || 0} دقیقه</div>
-                  </div>
+          <form
+            className="flex flex-col gap-5"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="space-y-1.5">
+              <Label
+                htmlFor="dailyCalorieGoal"
+                className="text-secondary text-xs font-semibold uppercase tracking-wider"
+              >
+                {copy.calorieGoal} <span className="text-danger">*</span>
+              </Label>
+              <Input
+                id="dailyCalorieGoal"
+                type="number"
+                min={0}
+                step={1}
+                aria-invalid={!!errors.dailyCalorieGoal}
+                className="bg-background border-border text-primary-foreground placeholder:text-secondary focus-visible:ring-primary"
+                {...register("dailyCalorieGoal", { valueAsNumber: true })}
+              />
+              {errors.dailyCalorieGoal && (
+                <div className="text-danger flex items-center gap-1.5 text-xs">
+                  <AlertCircle className="size-3.5" />
+                  <span>{errors.dailyCalorieGoal.message}</span>
                 </div>
               )}
+            </div>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
-                  isSubmitting
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                }`}
+            <div className="space-y-1.5">
+              <Label
+                htmlFor="dailyDurationGoal"
+                className="text-secondary text-xs font-semibold uppercase tracking-wider"
               >
-                {isSubmitting ? (
-                  <div className="flex items-center justify-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      />
-                    </svg>
-                    در حال ثبت...
+                {copy.durationGoal} <span className="text-danger">*</span>
+              </Label>
+              <Input
+                id="dailyDurationGoal"
+                type="number"
+                min={0}
+                step={1}
+                aria-invalid={!!errors.dailyDurationGoal}
+                className="bg-background border-border text-primary-foreground placeholder:text-secondary focus-visible:ring-primary"
+                {...register("dailyDurationGoal", { valueAsNumber: true })}
+              />
+              {errors.dailyDurationGoal && (
+                <div className="text-danger flex items-center gap-1.5 text-xs">
+                  <AlertCircle className="size-3.5" />
+                  <span>{errors.dailyDurationGoal.message}</span>
+                </div>
+              )}
+            </div>
+
+            {(goal?.colories || goal?.duration) && (
+              <div className="bg-card border border-border rounded-lg p-4">
+                <div className="text-secondary mb-2 text-xs font-semibold uppercase tracking-wider">
+                  {copy.currentGoals}
+                </div>
+                <div className="text-primary-foreground space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-secondary">{copy.caloriesLine}</span>
+                    <span className="text-success font-medium">
+                      {goal?.colories ?? 0}
+                    </span>
                   </div>
-                ) : (
-                  "ذخیره اهداف"
-                )}
-              </button>
-            </form>
-          </div>
+                  <div className="flex justify-between">
+                    <span className="text-secondary">{copy.durationLine}</span>
+                    <span className="text-success font-medium">
+                      {goal?.duration ?? 0}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold tracking-wide disabled:opacity-40"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? copy.saving : copy.save}
+            </Button>
+          </form>
         </div>
       </div>
     </DialogContent>

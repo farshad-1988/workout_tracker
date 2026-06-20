@@ -9,13 +9,13 @@ export const daysInWeekFa = [
 ];
 
 export const defaultExercise = [
-  "کاردیو",
-  "بدنسازی",
-  "یوگا",
-  "پیلاتس",
-  "دویدن",
-  "شنا",
-  "دوچرخه سواری",
-  "پیاده روی",
-  "ورزش‌های تیمی",
+  "Cardio",
+  "Strength Training",
+  "Yoga",
+  "Pilates",
+  "Running",
+  "Swimming",
+  "Cycling",
+  "Walking",
+  "Team Sports",
 ];

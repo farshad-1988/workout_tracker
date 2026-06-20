@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AddExerciseTypeIn from "./components/AddExerciseTypeIn";
 
 const AddExerciseType = () => {
@@ -12,7 +12,7 @@ const AddExerciseType = () => {
     <button
       type="button"
       onClick={() => setShowAddType(true)}
-      className="px-3 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all duration-200 flex items-center justify-center group"
+      className="cursor-pointer w-8 h-8 bg-background hover:bg-forground text-primary rounded-lg transition-all duration-200 flex items-center justify-center group"
       title="افزودن نوع تمرین جدید"
     >
       <svg

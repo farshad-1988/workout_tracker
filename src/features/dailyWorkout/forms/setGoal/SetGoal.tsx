@@ -1,5 +1,5 @@
 // components/WorkoutForm/index.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Dialog } from "@/components/ui/dialog";
 
 import { GoalsDialog } from "./components/GoalsDialog";

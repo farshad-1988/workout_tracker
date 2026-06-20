@@ -1,16 +1,37 @@
-// src/components/WeeklyChart/LoadingOverlay.tsx
+// import { Progress } from "@/components/ui/progress";
 
-import type { LoadingOverlayProps } from "@/types/types";
+// export type LoadingOverlayProps = {
+//   isLoading: boolean;
+//   label: string;
+// };
 
-export function LoadingOverlay({ isLoading }: LoadingOverlayProps) {
+// export function LoadingOverlay({ isLoading, label }: LoadingOverlayProps) {
+//   if (!isLoading) return null;
+
+//   return (
+//     <div className="bg-background/80 absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 rounded-2xl backdrop-blur-sm">
+//       <Progress className="h-1.5 w-40 max-w-[80%]" value={66} />
+//       <span className="text-muted-foreground text-sm font-medium">{label}</span>
+//     </div>
+//   );
+// }
+import { Progress } from "@/components/ui/progress";
+
+export type LoadingOverlayProps = {
+  isLoading: boolean;
+  label: string;
+};
+
+export function LoadingOverlay({ isLoading, label }: LoadingOverlayProps) {
   if (!isLoading) return null;
 
   return (
-    <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10">
-      <div className="flex items-center space-x-3 rtl:space-x-reverse">
-        <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-        <span className="text-gray-600 font-medium">Loading chart...</span>
-      </div>
+    <div className="bg-background/80 absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 rounded-2xl backdrop-blur-sm">
+      <Progress
+        className="h-1.5 w-40 max-w-[80%] bg-border [&>div]:bg-primary"
+        value={66}
+      />
+      <span className="text-secondary text-sm font-medium">{label}</span>
     </div>
   );
 }

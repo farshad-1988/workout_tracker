@@ -3,8 +3,6 @@ import type { WorkoutFormData } from "../schemas/workoutSchemas";
 
 export interface WorkoutDialogProps {
   form: UseFormReturn<WorkoutFormData>;
-  exerciseTypes: string[];
-  setExerciseTypes: React.Dispatch<React.SetStateAction<string[]>>;
   isDuplicateExerciseName: boolean;
   onSubmit: (data: WorkoutFormData) => Promise<void>;
   displayDate: string;
