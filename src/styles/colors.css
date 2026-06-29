@@ -1,0 +1,83 @@
+@import "tailwindcss";
+:root {
+  --primary: #f97316; /* energy orange — CTAs, active states */
+  --primary-foreground: #ffffff;
+
+  --secondary: #6b7280; /* muted gray for labels, hints */
+
+  --background: #0d0d0d; /* near-black app bg */
+  --card: #1a1a1a; /* lifted surface */
+  --border: #2a2a2a; /* subtle dividers */
+
+  --success: #16a34a; /* PRs, completed sets */
+  --danger: #dc2626; /* missed workouts, rest day warnings */
+}
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+
+  --color-background: var(--background);
+  --color-card: var(--card);
+  --color-border: var(--border);
+
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+}
+
+[data-theme="green"] {
+  --primary: #22c55e;
+  --primary-foreground: #eff6ff;
+
+  --background: #0a1a0d;
+  --card: #0f2a15;
+  --border: #1a3d1e;
+  --primary-text: #4ade80; /* for text/icons ON dark cards */
+}
+
+[data-theme="blue"] {
+  --primary: #2563eb;
+  --primary-foreground: #eff6ff;
+  --background: #090f1f;
+  --card: #0f1e3d;
+  --border: #162444;
+  --primary-text: #60a5fa;
+}
+
+[data-theme="purple"] {
+  --primary: #7c3aed;
+  --primary-foreground: #faf5ff;
+  --background: #0e0a1e;
+  --card: #1c1038;
+  --border: #241440;
+  --primary-text: #c084fc;
+}
+
+[data-theme="orange"] {
+  --primary: #f97316;
+  --primary-foreground: #fff7ed;
+  --background: #150d00;
+  --card: #271600;
+  --border: #3a2000;
+  --primary-text: #fb923c;
+}
+
+[data-theme="red"] {
+  --primary: #dc2626;
+  --primary-foreground: #fef2f2;
+  --background: #180a0a;
+  --card: #2d1010;
+  --border: #3f1515;
+  --primary-text: #f87171;
+}
+
+[data-theme="pink"] {
+  --primary: #db2777;
+  --primary-foreground: #fdf2f8;
+  --background: #1a0a14;
+  --card: #321022;
+  --border: #44102e;
+  --primary-text: #f472b6;
+}
