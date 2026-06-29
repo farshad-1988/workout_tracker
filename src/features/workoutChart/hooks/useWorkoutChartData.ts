@@ -3,8 +3,12 @@ import { useEffect, useMemo, useState } from "react";
 import { daysInWeekEn } from "@/lib/constants/english";
 import { daysInWeekFa } from "@/lib/constants/persian";
 import type { AppLocale } from "@/constants/types";
-import { cloneDO, getStartOfWeek, makeDO } from "@/features/weeklyChart/utils/dateHelper";
-import { makeChartData } from "@/features/weeklyChart/utils/calculateChartInfo";
+import {
+  cloneDO,
+  getStartOfWeek,
+  makeDO,
+} from "@/features/workoutChart/utils/dateHelper";
+import { makeChartData } from "@/features/workoutChart/utils/calculateChartInfo";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import {
   computeCaloriesSeries,
@@ -81,8 +85,9 @@ export function useWorkoutChartData(
       0,
     );
     const counted = values.filter((v) => v !== null).length;
-    const activeBuckets = values.filter((v) => typeof v === "number" && v > 0)
-      .length;
+    const activeBuckets = values.filter(
+      (v) => typeof v === "number" && v > 0,
+    ).length;
 
     return {
       pointLabels: labels,

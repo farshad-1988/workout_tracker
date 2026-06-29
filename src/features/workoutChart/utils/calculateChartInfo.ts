@@ -18,15 +18,12 @@ export function calBestDay(
   const maxCalories = Math.max(...validCalories);
   const bestDayIndex = caloriesData.indexOf(maxCalories);
   const bestDay =
-    bestDayIndex !== -1 ? pointLabels[bestDayIndex] ?? "—" : "—";
+    bestDayIndex !== -1 ? (pointLabels[bestDayIndex] ?? "—") : "—";
 
   return bestDay;
 }
 
-export function makeChartData(
-  caloriesData: CaloriesData,
-  labels: string[],
-) {
+export function makeChartData(caloriesData: CaloriesData, labels: string[]) {
   return {
     labels,
     datasets: [

@@ -220,12 +220,12 @@ import { useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getChartText } from "@/constants";
-import { createLineChartOptions } from "@/features/weeklyChart/config/chartConfig";
+import { createLineChartOptions } from "@/features/workoutChart/config/chartConfig";
 
-import { ChartFooter } from "@/features/weeklyChart/components/ChartFooter";
-import { ChartHeader } from "@/features/weeklyChart/components/ChartHeader";
-import { LoadingOverlay } from "@/features/weeklyChart/components/LoadingOverlay";
-import { StatCard } from "@/features/weeklyChart/components/StatCard";
+import { ChartFooter } from "@/features/workoutChart/components/ChartFooter";
+import { ChartHeader } from "@/features/workoutChart/components/ChartHeader";
+import { LoadingOverlay } from "@/features/workoutChart/components/LoadingOverlay";
+import { StatCard } from "@/features/workoutChart/components/StatCard";
 import {
   useWorkoutChartData,
   type ChartPeriod,
