@@ -19,7 +19,7 @@ jobs:
        # ۲. استفاده از Node.js
       - uses: actions/setup-node@v4
         with:
-          node-level: 20 # نسخه Node مورد نظرت
+          node-level: 22 # نسخه Node مورد نظرت
           cache: 'pnpm'  # فعال کردن کش برای سرعت بیشتر
 
       # ۳. نصب پکیج‌ها با pnpm (معادل pnpm install با بررسی lockfile)
