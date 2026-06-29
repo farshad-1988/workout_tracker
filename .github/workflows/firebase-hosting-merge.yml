@@ -9,9 +9,36 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - run: npm ci && npm run build
+#       - uses: FirebaseExtended/action-hosting-deploy@v0
+#         with:
+#           repoToken: ${{ secrets.GITHUB_TOKEN }}
+#           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORKOUTFT }}
+#           channelId: live
+#           projectId: workoutft
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+
+      # ۱. نصب pnpm روی سرور گیتهاب
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 11 # یا هر نسخه‌ای که استفاده می‌کنی
+
+      # ۲. استفاده از Node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-level: 20 # نسخه Node مورد نظرت
+          cache: 'pnpm'  # فعال کردن کش برای سرعت بیشتر
+
+      # ۳. نصب پکیج‌ها با pnpm (معادل pnpm install با بررسی lockfile)
+      - run: pnpm install --frozen-lockfile
+
+      # ۴. بیلد گرفتن
+      - run: pnpm build
+
+      # ۵. دیپلوی روی فایربیس
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
