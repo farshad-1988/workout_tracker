@@ -7,5 +7,5 @@ export function readStoredLocale(): AppLocale {
   } catch {
     /* ignore */
   }
-  return "fa";
+  return "en";
 }

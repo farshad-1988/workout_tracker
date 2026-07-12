@@ -6,14 +6,22 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 import type { BioText } from "@/constants/types";
 import type { AppLocale } from "@/constants/types";
 
+function getCalendarConfig(locale: AppLocale) {
+  return locale === "fa"
+    ? { calendar: persian, calendarLocale: persian_fa }
+    : { calendar: gregorian, calendarLocale: gregorian_en };
+}
+
 export function getDayLabel(
   dateKey: string,
   locale: AppLocale,
   bio: Pick<BioText, "today" | "yesterday">,
 ): string {
+  const { calendar, calendarLocale } = getCalendarConfig(locale);
+
   const today = new DateObject({
-    calendar: persian,
-    locale: persian_fa,
+    calendar,
+    locale: calendarLocale,
   });
   const yesterday = new DateObject(today).subtract(1, "day");
 
@@ -27,14 +35,11 @@ export function getDayLabel(
   const parsed = new DateObject({
     date: dateKey,
     format: "YYYY-MM-DD",
-    calendar: persian,
-    locale: persian_fa,
+    calendar,
+    locale: calendarLocale,
   });
 
-  if (locale === "fa") {
-    return parsed.format("dddd D MMMM YYYY");
-  }
-
-  const gregorianDate = parsed.convert(gregorian, gregorian_en);
-  return gregorianDate.format("dddd, MMMM D, YYYY");
+  return locale === "fa"
+    ? parsed.format("dddd D MMMM YYYY")
+    : parsed.format("dddd, MMMM D, YYYY");
 }

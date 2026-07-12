@@ -12,7 +12,7 @@ export type NavText = {
 const navEn: NavText = {
   brandTitle: "Workout tracker",
   home: "Home",
-  chart: "Calorie charts",
+  chart: "Calories charts",
   calendar: "Calendar",
   mobileMenu: "Open menu",
   appearance: "theme",

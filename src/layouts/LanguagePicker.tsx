@@ -98,6 +98,7 @@ import {
 import type { AppLocale } from "@/constants";
 import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage";
 import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
+import { useNavigate } from "react-router-dom";
 
 const LOCALES: {
   value: AppLocale;
@@ -118,6 +119,7 @@ function LocaleList({
   setLocale: (v: AppLocale) => void;
   onSelect?: () => void;
 }) {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col gap-2  py-2">
       {LOCALES.map(({ value, native, flag }) => {
@@ -128,6 +130,7 @@ function LocaleList({
             onClick={() => {
               setLocale(value);
               onSelect?.();
+              navigate("/");
             }}
             className={[
               "group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-150",
@@ -175,7 +178,7 @@ function TriggerButton(
 
 export function LanguagePicker() {
   const { locale, setLocale } = useLanguage();
-  const active = LOCALES.find((l) => l.value === locale) ?? LOCALES[0];
+  const active = LOCALES.find((l) => l.value === locale) ?? LOCALES[1];
   const isMobile = useMediaQuery("(max-width: 767px)");
 
   if (isMobile) {

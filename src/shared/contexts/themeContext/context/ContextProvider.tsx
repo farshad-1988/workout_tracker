@@ -5,7 +5,7 @@ import { ThemeContext } from "./contextCreator";
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(readStoredLocale);
-  console.log(theme);
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
 
