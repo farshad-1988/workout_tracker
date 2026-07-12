@@ -1,1 +1,1 @@
-export const daysInWeekEn = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
+export const daysInWeekEn = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
