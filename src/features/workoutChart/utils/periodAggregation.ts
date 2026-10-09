@@ -158,6 +158,8 @@ import {
   makeDO,
   makeDOFromYMD,
 } from "@/features/workoutChart/utils/dateHelper";
+import { formatCanonicalDate, toCanonicalDateKey } from "@/utils/dateKey";
+import type { AppLocale } from "@/constants/types";
 import { getExercisesInADay } from "@/shared/contexts/exerciseContext/selectors/exerciseStates";
 import type { State } from "@/shared/contexts/exerciseContext/types/type";
 import type { Exercise } from "@/types/types";
@@ -176,8 +178,7 @@ export function sumCaloriesForDate(state: State, dateKey: string): number {
   );
 }
 
-/** Lexicographic compare works for zero-padded `YYYY-MM-DD` keys from DateObject.format,
- *  regardless of which calendar generated them. */
+/** Lexicographic compare works for zero-padded Gregorian `YYYY-MM-DD` storage keys. */
 export function isDateKeyAfterToday(
   dateKey: string,
   todayKey: string,
@@ -223,7 +224,7 @@ export function getWeekDateKeys(
   for (let i = 0; i < 7; i++) {
     const d = cloneDO(startOfWeek, locale);
     d.add(i, "day");
-    keys.push(d.format("YYYY-MM-DD"));
+    keys.push(toCanonicalDateKey(d));
   }
   return keys;
 }
@@ -245,7 +246,7 @@ export function getMonthSeries(
     const d = cloneDO(start, locale);
     d.add(i, "day");
     if (d.format("YYYY-MM") !== monthMarker) break;
-    dateKeys.push(d.format("YYYY-MM-DD"));
+    dateKeys.push(toCanonicalDateKey(d));
     dayLabels.push(String(d.day));
   }
 
@@ -260,14 +261,14 @@ export function getYearMonthSeries(
 ): { labels: string[]; values: (number | null)[] } {
   const labels: string[] = [];
   const values: (number | null)[] = [];
-  const todayKey = today.format("YYYY-MM-DD");
+  const todayKey = toCanonicalDateKey(today);
 
   for (let month = 1; month <= 12; month++) {
     const monthStart = makeDOFromYMD(year, month, 1, locale);
 
     labels.push(monthStart.format("MMMM"));
 
-    const monthStartKey = monthStart.format("YYYY-MM-DD");
+    const monthStartKey = toCanonicalDateKey(monthStart);
     if (isDateKeyAfterToday(monthStartKey, todayKey)) {
       values.push(null);
       continue;
@@ -291,9 +292,15 @@ export function makeMonthRangeLabel(
 ): string {
   const { dateKeys } = getMonthSeries(monthAnchor, locale);
   if (!dateKeys.length) return "";
-  const first = makeDO(dateKeys[0], locale);
-  const last = makeDO(dateKeys[dateKeys.length - 1], locale);
-  return `${first.format("YYYY/MM/DD")} – ${last.format("YYYY/MM/DD")}`;
+  const appLocale: AppLocale = locale === "fa" ? "fa" : "en";
+  const first = formatCanonicalDate(dateKeys[0], appLocale, "YYYY/MM/DD");
+  const last = formatCanonicalDate(
+    dateKeys[dateKeys.length - 1],
+    appLocale,
+    "YYYY/MM/DD",
+  );
+  if (!first || !last) return "";
+  return `${first} – ${last}`;
 }
 
 export function makeYearLabel(year: number): string {

@@ -70,7 +70,6 @@ import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage"
 
 const WorkoutHeader = () => {
   const dateKey = useModifiedPickedDate();
-  console.log(dateKey);
   const { exercises } = useDailyData(dateKey);
   const { locale } = useLanguage();
   const bio = getBioText(locale);

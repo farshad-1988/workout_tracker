@@ -126,6 +126,7 @@ import {
   getStartOfWeek,
   makeDO,
 } from "@/features/workoutChart/utils/dateHelper";
+import { toCanonicalDateKey } from "@/utils/dateKey";
 import { makeChartData } from "@/features/workoutChart/utils/calculateChartInfo";
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import {
@@ -152,7 +153,7 @@ export function useWorkoutChartData(
 
   const model = useMemo(() => {
     const today = makeDO(undefined, locale);
-    const todayKey = today.format("YYYY-MM-DD");
+    const todayKey = toCanonicalDateKey(today);
 
     if (period === "week") {
       const base = getStartOfWeek(today, locale);

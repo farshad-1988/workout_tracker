@@ -184,7 +184,7 @@ const WorkoutTableRow: React.FC<WorkoutTableRowProps> = ({
       type: "UPDATE_EXERCISE",
       dateKey,
       id: exercise.id,
-      patch: currentValues,
+      patch: { ...currentValues, date: dateKey },
     });
     setIsEditing(false);
   };

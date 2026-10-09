@@ -1,26 +1,21 @@
-// components/DailyWorkout/useModifiedPickedDate.ts
-import { useState, useEffect } from "react";
-import { DateObject } from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
-import { useParams, type Params } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { resolveStoredDateKey, todayCanonical } from "@/utils/dateKey";
 
 export const useModifiedPickedDate = (): string => {
-  const { pickedDate } = useParams<keyof Params>() as { pickedDate: string };
-  const [modifiedPickedDate, setModifiedPickedDate] = useState<string>("");
+  const { pickedDate } = useParams();
+  const navigate = useNavigate();
+  const dateKey = !pickedDate
+    ? todayCanonical()
+    : (resolveStoredDateKey(pickedDate) ?? pickedDate);
 
   useEffect(() => {
-    if (!pickedDate) {
-      setModifiedPickedDate(
-        new DateObject({
-          calendar: persian,
-          locale: persian_fa,
-        }).format("YYYY-MM-DD"),
-      );
-    } else {
-      setModifiedPickedDate(pickedDate);
+    if (!pickedDate) return;
+    const resolved = resolveStoredDateKey(pickedDate);
+    if (resolved && resolved !== pickedDate) {
+      navigate(`/dailyworkout/${resolved}`, { replace: true });
     }
-  }, [pickedDate]);
+  }, [pickedDate, navigate]);
 
-  return modifiedPickedDate;
+  return dateKey;
 };

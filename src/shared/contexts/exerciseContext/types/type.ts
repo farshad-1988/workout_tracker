@@ -2,10 +2,20 @@ import type { Exercise } from "@/types/types";
 
 export type DateKey = string;
 
+export type DateKeyReviewEntry = {
+  sourceKey: string;
+  reason: "ambiguous-calendar" | "invalid-date" | "goal-conflict" | "exercise-conflict";
+  canonicalKey?: string;
+  goal?: { duration: number; colories: number };
+  exercise?: Exercise;
+};
+
 export interface State {
   exercisesByDate: Map<DateKey, Exercise[]>;
   dailyGoalByDate: Map<DateKey, { duration: number; colories: number }>;
   exerciseTypes: string[];
+  /** Legacy keys whose calendar could not be determined, plus values kept during a merge. */
+  dateKeyReview: DateKeyReviewEntry[];
 }
 
 export type Action =
@@ -32,5 +42,8 @@ export interface ExerciseContextType {
 export type PersistedState = {
   exercisesByDate?: Record<string, Exercise[]>;
   dailyGoalByDate?: Record<string, { duration: number; colories: number }>;
-  exerciseTypes: string[];
+  /** Written by the current serializer. */
+  exerciseType?: string[];
+  exerciseTypes?: string[];
+  dateKeyReview?: DateKeyReviewEntry[];
 };

@@ -21,7 +21,10 @@ export default function reducer(state: State, action: Action): State {
         });
       }
       const existing = nextExercises.get(action.dateKey) ?? [];
-      nextExercises.set(action.dateKey, [...existing, action.exercise]);
+      nextExercises.set(action.dateKey, [
+        ...existing,
+        { ...action.exercise, date: action.dateKey },
+      ]);
       return { ...state, exercisesByDate: nextExercises };
     }
 
@@ -41,7 +44,9 @@ export default function reducer(state: State, action: Action): State {
       nextExercises.set(
         action.dateKey,
         existing.map((e) =>
-          e.id === action.id ? { ...e, ...action.patch } : e,
+          e.id === action.id
+            ? { ...e, ...action.patch, date: action.dateKey }
+            : e,
         ),
       );
       return { ...state, exercisesByDate: nextExercises };

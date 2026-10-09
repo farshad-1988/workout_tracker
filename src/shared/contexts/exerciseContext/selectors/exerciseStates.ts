@@ -1,43 +1,12 @@
-import { DateObject } from "react-multi-date-picker";
-import persian_fa from "react-date-object/locales/persian_fa";
-import persian from "react-date-object/calendars/persian";
 import type { State } from "../types/type";
+import { calculateDaysFrom, isCanonicalDateKey } from "@/utils/dateKey";
 
-export function calculateDaysFrom(selectedDate: string): number {
-  const past = new DateObject({
-    date: selectedDate,
-    format: "YYYY-MM-DD",
-    calendar: persian,
-    locale: persian_fa,
-  });
-  const today = new DateObject({
-    format: "YYYY-MM-DD",
-    calendar: persian,
-    locale: persian_fa,
-  });
-
-  // Difference in milliseconds
-  const diffMs = today.valueOf() - past.valueOf();
-
-  // Convert milliseconds to days
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-  return diffDays + 1;
-}
-
-export const calDayValue = (dateStr: string) => {
-  return new DateObject({
-    date: dateStr,
-    format: "YYYY-MM-DD",
-    calendar: persian,
-    locale: persian_fa,
-  }).valueOf();
-};
+export { calculateDaysFrom };
 
 export const daysWithWorkout = (state: State) => {
-  return [...state.exercisesByDate.keys()].sort(
-    (a, b) => calDayValue(a) - calDayValue(b),
-  );
+  return [...state.exercisesByDate.keys()]
+    .filter((key) => isCanonicalDateKey(key))
+    .sort();
 };
 
 export const firstLastDay = (state: State) => {

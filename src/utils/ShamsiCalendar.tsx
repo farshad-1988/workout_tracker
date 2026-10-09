@@ -289,6 +289,7 @@ import { daysWithWorkout } from "@/shared/contexts/exerciseContext/selectors/exe
 import { useExercise } from "@/shared/contexts/exerciseContext/hooks/useExercises";
 import { getCalendarText } from "@/constants";
 import { useLanguage } from "@/shared/contexts/languageContext/hook/useLanguage";
+import { calendarValueFromRoute, toCanonicalDateKey } from "@/utils/dateKey";
 
 const ShamsiCalendar = () => {
   const { state } = useExercise();
@@ -307,7 +308,9 @@ const ShamsiCalendar = () => {
   const dateClickHandler = (date: DateObject | DateObject[] | null) => {
     const selected = Array.isArray(date) ? date[0] : date;
     if (!selected) return;
-    navigate(`/dailyworkout/${selected.format("YYYY-MM-DD")}`);
+    const dateKey = toCanonicalDateKey(selected);
+    if (!dateKey) return;
+    navigate(`/dailyworkout/${dateKey}`);
     setDialogOpen(false);
   };
 
@@ -444,21 +447,15 @@ const ShamsiCalendar = () => {
               onChange={dateClickHandler}
               maxDate={new Date()}
               mapDays={({ date }) => {
-                const formatted = date.format("YYYY-MM-DD");
-                if (days.includes(formatted)) {
+                const formatted = toCanonicalDateKey(date);
+                if (formatted && days.includes(formatted)) {
                   return {
                     className: "workout-day",
                   };
                 }
               }}
               value={
-                pickedDate
-                  ? new DateObject({
-                      date: pickedDate,
-                      calendar: activeCalendar,
-                      locale: activeLocale,
-                    })
-                  : undefined
+                pickedDate ? calendarValueFromRoute(pickedDate, locale) : undefined
               }
             />
           </div>

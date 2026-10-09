@@ -12,6 +12,7 @@ const initialState: State = {
   exercisesByDate: new Map(),
   dailyGoalByDate: new Map(),
   exerciseTypes: defaultExercise,
+  dateKeyReview: [],
 };
 
 /* -------- Provider -------- */
